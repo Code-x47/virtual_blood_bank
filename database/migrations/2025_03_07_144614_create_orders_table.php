@@ -16,11 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('blood_inventory_id')->constrained();
             $table->integer('quantity');
-            $table->status('enum',['pending', 'approved', 'rejected', 'completed', 'cancelled']);
+            $table->enum('status',['pending', 'approved', 'rejected', 'completed', 'cancelled']);
             $table->string('delivery_address');
             $table->timestamp('order_date');
             $table->timestamp('delivery_date')->nullable();
             $table->timestamps();
+
         });
     }
 
