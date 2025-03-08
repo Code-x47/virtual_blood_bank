@@ -35,12 +35,12 @@ class userController extends Controller
         ]);
 
         if(auth()->attempt([
-            "email"=>$loginData->email,
-            "password"=>$loginData->password
+            "email"=>$req->input('email'),
+            "password"=>$req->input('password')
         ])){
             $req->session()->regenerate();
         }
-        return redirect('');
+        return redirect('/login');
     }
 
 
