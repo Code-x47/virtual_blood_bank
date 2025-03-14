@@ -25,11 +25,12 @@ class RegisterTest extends TestCase
         $response->assertStatus(302);
     }*/
 
+    
     public function test_my_login_page() {
 
         $user = User::factory()->create([
-            "name"=>"Zoe Kassy",
-            "email"=>"zoe@gmail.com",
+            "name"=>"Ezema Kingsley",
+            "email"=>"kings@gmail.com",
             "phone"=>"08153777284",
             "address"=>"Enugu",
             "password"=>bcrypt("password")
@@ -38,7 +39,7 @@ class RegisterTest extends TestCase
 
 
         $response = $this->post('/login',[
-            "email"=>"zoe@gmail.com",
+            "email"=>"kings@gmail.com",
             "password"=>"password"
         ]);
         $response->assertStatus(302);

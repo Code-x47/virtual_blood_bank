@@ -7,5 +7,5 @@
 <input type="text" name="address" placeholder="Enter Blood Bank's Address"><br><br>
 <input type="text" name="phone" placeholder="Enter Your Phone Address"><br><br>
 <input type="text" name="city" placeholder="Enter Your Current City"><br><br>
-
+<button>Submit</button>
 </form>

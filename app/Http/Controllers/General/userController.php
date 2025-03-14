@@ -21,31 +21,57 @@ class userController extends Controller
         $user->email = $req->email;
         $user->phone = $req->phone;
         $user->address = $req->address;
-        $user->password = Hash::make($req->email);
+        $user->password = Hash::make($req->password);
 
         $user->save();
-        return back();
+        return redirect('/login');
 
     }
 
     public function login(Request $req) {
+
        $loginData = $req->validate([
            "email"=>"Required",
            "password"=>"Required"
         ]);
+        $sessiondata = $req->input();
 
         if(auth()->attempt([
-            "email"=>$req->input('email'),
-            "password"=>$req->input('password')
+            "email"=>$loginData['email'],       
+            "password"=>$loginData['password']          
         ])){
-            $req->session()->regenerate();
+            
+            $req->session()->Put('data',$sessiondata['email']);
         }
-        return redirect('/login');
+        $user = auth()->user();
+      
+        if($user->designation == "admin") {
+        
+            return redirect('/admin_dashboard');
+           
+            
+        }
+           
+          
+            else if($user->designation == "agent"){
+            return redirect('/agent_dashboard');
+            }
+           
+            
+        
+        
+        else {
+           
+            return redirect('/user_dashboard'); 
+         
+        }
+    
+           
     }
 
 
     public function logout(Request $req) {
        auth()->logout();
-       return redirect('');
+       return redirect('/login');
     }
 }

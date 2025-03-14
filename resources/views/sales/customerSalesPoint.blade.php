@@ -1,4 +1,3 @@
-<h1>View Products</h2>
 <table border=1>
     <tr>
     <th>S/N</th>
@@ -17,7 +16,7 @@
     <tr>
     <td>{{$bank['id']}}</td>
     <td>{{$bank->name ?? 'N/A'}}</td>
-    <td><a href="buyproduct/{{$bank['id']}}">Buy</a></td>
+    <td><a href="customerBuy/{{$bank['id']}}">Buy</a></td>
     </tr>
     @endforeach
 </table>
