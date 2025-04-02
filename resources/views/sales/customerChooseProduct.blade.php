@@ -5,6 +5,7 @@
     <th>S/N</th>
     <th>Blood Type</th>
     <th>Quantity</th>
+    <th>Price (per unit)</th>
     <th>Action</th>    
     <tr>
 
@@ -12,7 +13,9 @@
    <tr>
     <td>{{$products->id}}</td>
     <td>{{$products->blood_type}}</td>
+    
     <td>{{$products->quantity}}</td>
+    <td>{{$products->price}}</td>
     <td>
     <form action="{{route('customer.add2cart',$products->id)}}" method="Get">
      <input type="number" value="1" min="1" name="quantity">

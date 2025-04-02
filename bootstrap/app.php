@@ -15,5 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->statefulApi();
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->renderable(function (Symfony\Component\Routing\Exception\RouteNotFoundException $e, $request) {
+            return response()->json([
+                'error' => 'The requested route is not defined. Please check the URL and try again.'
+            ], 404);
+        });
     })->create();

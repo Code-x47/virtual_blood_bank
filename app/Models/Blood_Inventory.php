@@ -11,4 +11,9 @@ class Blood_Inventory extends Model
     public function bloodbank() {
        return $this->belongsTo(Blood_Bank::class,"blood_bank_id");
     }
+
+    public function order() {
+        return $this->hasMany(Order::class,'blood_inventory_id');
+    }
+    
 }
