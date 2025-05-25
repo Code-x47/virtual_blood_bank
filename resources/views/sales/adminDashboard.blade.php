@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
+
     
 </head>
 <body>
@@ -13,13 +13,14 @@
 @section('navbar')
  <h2>Admin Panel</h2>
         <ul>
-            <li>Dashboard</li>
-            <li><a href="{{route('view.products')}}">View Available Blood</a></li>
-            <li><a href="{{route('form.bloodBank')}}">Register Blood Bank</a></li>
-            <li>Users</li>
+            <li @click="myUsers">Dashboard</li>
+            <li @click="myInventory">View Inventory</a></li>
+            <li>Register Blood Bank</a></li>
+            <li @click="myBanks">Blood Banks</li>
+            <li @click="myUsers">Users</li>
             <li>Deliveries</li>
-            <li>Orders</li>
-            <li>Payments</li>
+            <li @click="myOrders">Orders</li>
+            <li @click="myPayments">Payments</li>
             <li>Settings</li>
             <li><a href="logout">Logout</a></li>
         </ul>
@@ -63,7 +64,7 @@
                 </tr>
                @endforeach
             </table>
-
+   {{ $order->links() }}
 @endsection
 
 @section('user_table')
@@ -92,6 +93,7 @@
                  <tr>
                 @endforeach
         </table>
+         {{ $users->links() }}
 @endsection
 
 
@@ -124,6 +126,70 @@
                  <tr>
                 @endforeach
         </table>
+         {{ $payment->links() }}
+@endsection
+
+
+@section('inventory_table')
+<h3>Blood Inventory Table</h3>
+        <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Blood Bank</th>
+                  <th>Blood Type</th>
+                  <th>Quantity</th>
+                  <th>Expiry Date</th>
+                  <th>Action</th>
+                </tr>
+
+                @foreach($inventory as $data)
+                 <tr>
+                 <td>{{$data['id']}}</td>
+                 <td>{{$data->bloodbank->name}}</td>
+                 <td>{{$data['blood_type']}}</td>
+                 <td>{{$data['quantity']}}</td>
+                 <td>{{$data['expiry_date']}}</td>
+                 <td>
+                  <a href="#" style="color:blue; cursor:pointer">update</a> 
+                  <a href="#" style="color:red; cursor:pointer">delete</a>
+                 </td> 
+                 <tr>
+                @endforeach
+        </table>
+       {{ $inventory->links() }}
+
+@endsection
+
+@section('blood_bank_table')
+<h3>Blood Bank Table</h3>
+        <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>User</th>
+                  <th>Address</th>
+                  <th>Action</th>
+                </tr>
+
+                @foreach($bank as $bankdata)
+                 <tr>
+                 <td>{{$data['id']}}</td>
+                 <td>{{$bankdata->name}}</td>
+                 <td>{{$bankdata->email}}</td>
+                 <td>{{$bankdata->phone}}</td>
+                 <td>{{$bankdata->user->name}}</td>
+                 <td>{{$bankdata->address}}</td>
+                 <td>
+                  <a href="#" style="color:blue; cursor:pointer">update</a> 
+                  <a href="#" style="color:red; cursor:pointer">delete</a>
+                 </td> 
+                 <tr>
+                @endforeach
+        </table>
+ 
+
 @endsection
 
 </body>

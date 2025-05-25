@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Bank;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Blood_Bank;
-use App\Models\Blood_Inventory;
+use Illuminate\Http\Request;
+use App\Models\BloodInventory;
+use App\Http\Controllers\Controller;
 
 class BloodBankController extends Controller
 {
@@ -44,18 +47,49 @@ class BloodBankController extends Controller
          $req->validate([
          "blood_type"=>"Required",
          "quantity"=>"Required",
-         "expiry_date"=>"Required"
+         "expiry_date"=>"Required",
+         "price"=>"Required"
          ]);
-
+          
           $bloodbank = Blood_Bank::where("user_id",auth()->id())->first();
-           $bloodbank_id = $bloodbank->id;
-          $inventory = new Blood_Inventory;
+          
+          if(!$bloodbank) {
+            return response([
+              'Message'=>"User Not An Agent"
+            ]);
+          }
+          $bloodbank_id = $bloodbank->id;
+          
+
+          $inventory = new BloodInventory;
           $inventory->blood_bank_id = $bloodbank_id;
           $inventory->blood_type = $req->blood_type;
           $inventory->quantity = $req->quantity;
           $inventory->expiry_date = $req->expiry_date;
-
+          $inventory->price = $req->price;
+           
           $inventory->save();
           return back();
+        }
+        
+        public function view_orders() {
+          $user = Auth()->user();
+          $userBank = $user->blood_bank->id;
+          $inventory = BloodInventory::where("blood_bank_id", $userBank)->pluck('id');
+          $order = Order::with('blood_inventory')
+                   ->whereIn('blood_inventory_id',$inventory)->get();
+                    
+          return view('bank.viewOrder',compact('order'));
+        }
+        
+        public function view_payment() {
+          $user = auth()->user();
+          $userBank = $user->blood_bank->id;
+          $inventory = BloodInventory::where("blood_bank_id", $userBank)->pluck('id');
+          $order = Order::with('blood_inventory')
+                      ->whereIn('blood_inventory_id',$inventory)->pluck('id');
+                     
+          $payment = Payment::whereIn('order_id',$order)->get();
+          return view('bank.viewPayment',compact('payment'));
         }
 }

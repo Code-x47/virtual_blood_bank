@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Order;
 use App\Models\User;
+use App\Models\Order;
+use Faker\Core\Blood;
 use App\Models\Payment;
+use Illuminate\Http\Request;
+use App\Models\BloodInventory;
+use App\Models\Blood_Bank;
 
 class adminController extends Controller
 {
     public function adminFunction() {
-        $order = Order::all();
-        $countOrders = Order::all()->count();
-        $revenue = Payment::all()->sum('amount');
-        $countUsers = User::all()->count();
-        $users = User::all();
-        $payment = Payment::all();
+        $order = Order::paginate(5);
+        $countOrders = Order::count();
+        $revenue = Payment::sum('amount');
+        $countUsers = User::count();
+        $users = User::paginate(10);
+        $payment = Payment::paginate(5);
+        $inventory = BloodInventory::paginate(5);
+        $bank = Blood_Bank::paginate(5);
 
         
-        return view('sales.adminDashboard',compact('order','countUsers','countOrders','revenue','users','payment'));
+        return view('sales.adminDashboard',compact('order','countUsers','countOrders','revenue','users','payment','inventory','bank'));
     } 
 
     //ORDER METHODS
@@ -36,6 +41,8 @@ class adminController extends Controller
 
        return redirect()->route('admin.dash');
     }
+
+ 
 
     public function AdminOrderDelete($id) {
       $order = Order::find($id);

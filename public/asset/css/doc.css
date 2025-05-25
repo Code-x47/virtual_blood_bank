@@ -77,3 +77,6 @@ a {
     text-decoration: none;
     color: #fff;
 }
+.order,.payment, .inventory, .bank  {
+    display: none;
+}

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Blood_Inventory extends Model
+class BloodInventory extends Model
 {
     protected $table = "blood_inventories";
 
@@ -14,6 +14,10 @@ class Blood_Inventory extends Model
 
     public function order() {
         return $this->hasMany(Order::class,'blood_inventory_id');
+    }
+
+    public function user_bloodInventory() {
+        return $this->belongsTo(User::class);
     }
     
 }

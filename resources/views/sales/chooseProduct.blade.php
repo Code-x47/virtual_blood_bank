@@ -1,3 +1,16 @@
+<!--@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+
 <h1>Select Product By Blood Bank Of Your Choice</h1>
 <h3>These Are Products From <span style="color:red">{{$company->bloodbank->name}}</span></h3>
 <table border=1>
@@ -13,9 +26,475 @@
     <td>{{$products->id}}</td>
     <td>{{$products->blood_type}}</td>
     <td>{{$products->quantity}}</td>
-    <td>Add To Cart</td>
+    <td><a href="{{Route('agent_remove_item',$products->id)}}">Remove</a></td>
 
    </tr>
-
+    
     @endforeach
-</table>
+</table>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeBlood - Blood Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --blood: #ea384c;
+            --blood-dark: #c02638;
+            --blood-light: #ffdee2;
+            --white: #ffffff;
+            --black: #222222;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-100);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Include the contents of blood-product-table.css here */
+        .product-container {
+          width: 100%;
+          max-width: 1200px;
+          margin: 2rem auto;
+          padding: 0 1rem;
+          position: relative;
+          overflow: hidden;
+          animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .page-title {
+          text-align: center;
+          margin-bottom: 2.5rem;
+          position: relative;
+          
+        }
+
+        .page-title h1 {
+          font-size: 2.8rem;
+          font-weight: 700;
+          background: linear-gradient(180deg, var(--blood) 0%, var(--blood-dark) 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          margin-bottom: 0.5rem;
+          position: relative;
+          z-index: 1;
+          text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title h3 {
+          font-size: 1.4rem;
+          color: var(--gray-700);
+          margin-top: 0.75rem;
+        }
+
+        .page-title h3 span {
+          color: var(--blood);
+          font-weight: 600;
+        }
+
+        .page-title::after {
+          content: '';
+          position: absolute;
+          bottom: -0.8rem;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 8rem;
+          height: 0.25rem;
+          background: linear-gradient(90deg, transparent, var(--blood), transparent);
+          border-radius: 0.25rem;
+        }
+
+        .alert {
+          padding: 1rem;
+          border-radius: 0.5rem;
+          margin-bottom: 1.5rem;
+          position: relative;
+          animation: slideDown 0.5s ease-out;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          display: flex;
+          align-items: center;
+          border-left: 4px solid;
+        }
+
+        .alert-success {
+          background-color: rgba(52, 211, 153, 0.1);
+          border-left-color: #34D399;
+          color: #065F46;
+        }
+
+        .alert-danger {
+          background-color: rgba(239, 68, 68, 0.1);
+          border-left-color: #EF4444;
+          color: #991B1B;
+        }
+
+        .alert::before {
+          font-family: "Font Awesome 6 Free";
+          font-weight: 900;
+          margin-right: 0.75rem;
+          font-size: 1.2rem;
+        }
+
+        .alert-success::before {
+          content: "\f058"; /* check-circle */
+          color: #34D399;
+        }
+
+        .alert-danger::before {
+          content: "\f06a"; /* exclamation-circle */
+          color: #EF4444;
+        }
+
+        .product-table-container {
+          background-color: var(--white);
+          border-radius: 1rem;
+          box-shadow: 0 10px 30px rgba(234, 56, 76, 0.15);
+          overflow: hidden;
+          margin-bottom: 2rem;
+          transform: translateY(0);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-table-container:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 15px 40px rgba(234, 56, 76, 0.25);
+        }
+
+        .product-table {
+          width: 100%;
+          border-collapse: collapse;
+          overflow: hidden;
+        }
+
+        .product-table thead {
+          background: linear-gradient(135deg, var(--blood) 0%, var(--blood-dark) 100%);
+          color: var(--white);
+          position: relative;
+        }
+
+        .product-table thead::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 5px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        .product-table th {
+          padding: 1.5rem 1.25rem;
+          text-align: left;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          position: relative;
+        }
+
+        .product-table td {
+          padding: 1.25rem;
+          border-bottom: 1px solid var(--gray-200);
+          transition: all 0.3s ease;
+        }
+
+        .product-table tbody tr:last-child td {
+          border-bottom: none;
+        }
+
+        .product-table tbody tr {
+          transition: all 0.3s ease;
+        }
+
+        .product-table tbody tr:hover {
+          background-color: var(--blood-light);
+          transform: scale(1.01);
+        }
+
+        .remove-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: var(--blood);
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+        }
+
+        .remove-link:hover {
+          background-color: rgba(234, 56, 76, 0.1);
+          color: var(--blood-dark);
+          transform: translateY(-2px);
+        }
+
+        .remove-link::before {
+          content: '\f2ed'; /* trash icon */
+          font-family: "Font Awesome 6 Free";
+          font-weight: 900;
+          transition: transform 0.3s ease;
+        }
+
+        .remove-link:hover::before {
+          transform: rotate(15deg);
+        }
+
+        .blood-drop {
+          position: absolute;
+          width: 15px;
+          height: 20px;
+          background-color: rgba(234, 56, 76, 0.2);
+          border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+          transform: rotate(135deg);
+          filter: blur(2px);
+          opacity: 0;
+          z-index: -1;
+          animation: drop 15s infinite linear;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--blood);
+            text-decoration: none;
+            margin-top: 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--blood-dark);
+        }
+
+        .back-link::before {
+            content: '←';
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover::before {
+            transform: translateX(-3px);
+        }
+
+        @keyframes drop {
+          0% {
+            transform: rotate(135deg) translateY(-100vh) translateX(0);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.5;
+          }
+          80% {
+            opacity: 0.5;
+          }
+          100% {
+            transform: rotate(135deg) translateY(100vh) translateX(20px);
+            opacity: 0;
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+          .product-table {
+            display: block;
+            overflow-x: auto;
+          }
+          
+          .page-title h1 {
+            font-size: 2.4rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .page-title h1 {
+            font-size: 2rem;
+          }
+          
+          .product-table th,
+          .product-table td {
+            padding: 1rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .page-title h1 {
+            font-size: 1.8rem;
+          }
+          
+          .page-title h3 {
+            font-size: 1.2rem;
+          }
+          
+          .product-table th {
+            padding: 0.8rem;
+          }
+        }
+        
+        /* Blood wave background */
+        .wave-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            background: linear-gradient(180deg, var(--blood) 0%, var(--blood-dark) 100%);
+            z-index: -2;
+        }
+
+        .wave-bottom {
+            position: absolute;
+            top: 15vh;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%23FFFFFF'/%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%23FFFFFF'/%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="wave-top"></div>
+    <div class="wave-bottom"></div>
+    
+    <!-- Blood drops will be added by JavaScript -->
+    
+    <div class="product-container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <div class="page-title">
+            <h1>Select Product By Blood Bank Of Your Choice</h1>
+            @if (isset($company) && $company->bloodbank)
+             <h3>These Are Products From <span>{{$company->bloodbank->name}}</span></h3>
+            @endif
+        </div>
+        
+        <div class="product-table-container">
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Blood Type</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach($product as $products)
+                    <tr>
+                          
+                        <td>{{$products->id}}</td>
+                        <td>{{$products->blood_type}}</td>
+                        <td>{{$products->quantity}}</td>
+                        <td><a href="{{Route('agent_remove_item',$products->id)}}" class="remove-link">Remove</a></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            
+        </div>
+        <a href="{{Route('agent.dashboard')}}" class="back-link">Return to Dashboard</a>
+    </div>
+
+    <script>
+        // Create blood drops animation
+        function createBloodDrops() {
+            const numberOfDrops = 15;
+            
+            for(let i = 0; i < numberOfDrops; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('blood-drop');
+                
+                // Random position and animation delay
+                const posX = Math.random() * window.innerWidth;
+                const delay = Math.random() * 15;
+                const size = Math.random() * 10 + 10;
+                
+                drop.style.left = `${posX}px`;
+                drop.style.animationDelay = `${delay}s`;
+                drop.style.width = `${size}px`;
+                drop.style.height = `${size * 1.2}px`;
+                
+                document.body.appendChild(drop);
+            }
+        }
+        
+        window.addEventListener('load', function() {
+            createBloodDrops();
+            
+            // Auto-dismiss alerts after 5 seconds
+            setTimeout(() => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 500);
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

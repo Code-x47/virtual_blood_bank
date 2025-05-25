@@ -47,4 +47,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function blood_bank() {
+        return $this->hasOne(Blood_Bank::class);
+    }
+
+    public function user_payment() {
+        return $this->hasMany(Payment::class);
+    }
 }
