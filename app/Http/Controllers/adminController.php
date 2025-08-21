@@ -13,14 +13,16 @@ use App\Models\Blood_Bank;
 class adminController extends Controller
 {
     public function adminFunction() {
-        $order = Order::paginate(5);
-        $countOrders = Order::count();
+        $users = User::paginate(10, ['*'], 'users_page'); 
+        $order = Order::paginate(5, ['*'], 'orders_page');
         $revenue = Payment::sum('amount');
+        $countOrders = Order::count();
         $countUsers = User::count();
-        $users = User::paginate(10);
-        $payment = Payment::paginate(5);
-        $inventory = BloodInventory::paginate(5);
-        $bank = Blood_Bank::paginate(5);
+        
+        $payment = Payment::paginate(5, ['*'], 'payments_page');
+        $inventory = BloodInventory::paginate(5, ['*'], 'inventory_page');
+        $bank = Blood_Bank::paginate(5, ['*'], 'banks_page');
+
 
         
         return view('sales.adminDashboard',compact('order','countUsers','countOrders','revenue','users','payment','inventory','bank'));

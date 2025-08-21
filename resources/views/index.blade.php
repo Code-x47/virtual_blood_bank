@@ -117,12 +117,13 @@
           </p>
           <div class="facts">
             <div class="fact"><span></span> <strong>13.6 million</strong> units of whole blood and red blood cells collected annually</div>
-            <div class="fact"><span></span> <strong>45%</strong> of people in the U.S. have Type O blood (most requested)</div>
+            <div class="fact"><span></span> <strong>45%</strong> of people in the Nigeria have Type O blood (most requested)</div>
             <div class="fact"><span></span> <strong>3 lives</strong> can be saved by one donation</div>
           </div>
         </div>
         <div class="about-image">
-          <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80" alt="Blood donation">
+         <img src="asset/img/donor.jpg" alt="Blood donation">
+
           <div class="image-label">
             <p class="label-title">Every 2 seconds</p>
             <p class="label-text">Someone needs blood</p>

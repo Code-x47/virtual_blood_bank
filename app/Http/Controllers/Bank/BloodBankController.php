@@ -92,4 +92,6 @@ class BloodBankController extends Controller
           $payment = Payment::whereIn('order_id',$order)->get();
           return view('bank.viewPayment',compact('payment'));
         }
+
+        
 }

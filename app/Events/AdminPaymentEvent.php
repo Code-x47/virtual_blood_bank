@@ -13,13 +13,13 @@ use Illuminate\Queue\SerializesModels;
 class AdminPaymentEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public $email; 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($email)
     {
-        //
+        $this->email = $email;
     }
 
     /**

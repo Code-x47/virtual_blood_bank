@@ -1,384 +1,14 @@
-<!--<h1>View Products</h2>
-<table border=1>
-    <tr>
-    <th>S/N</th>
-    <th>Blood Bank</th>
-   
-    <th>Action</th>
-    </tr>
-    @if($specificBank->isEmpty())
-
-    <tr>
-        <td colspan="3">No products available</td>
-    </tr>
-    @endif
-    @foreach($specificBank AS $bank)
-    
-    <tr>
-    <td>{{$bank['id']}}</td>
-    <td>{{$bank->name ?? 'N/A'}}</td>
-    <td><a href="buyproduct/{{$bank['id']}}">Buy</a></td>
-    </tr>
-    @endforeach
-</table>-->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeBlood - View Products</title>
-    <style>
-        :root {
-            --blood: #ea384c;
-            --blood-dark: #c02638;
-            --blood-light: #ffdee2;
-            --white: #ffffff;
-            --black: #222222;
-            --gray-100: #f8f9fa;
-            --gray-200: #e9ecef;
-            --gray-300: #dee2e6;
-            --gray-400: #ced4da;
-            --gray-500: #adb5bd;
-            --gray-600: #6c757d;
-            --gray-700: #495057;
-            --gray-800: #343a40;
-            --gray-900: #212529;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--gray-800);
-            background-color: var(--gray-100);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        .wave-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 15vh;
-            background: linear-gradient(180deg, var(--blood) 0%, var(--blood-dark) 100%);
-        }
-
-        .wave-bottom {
-            position: absolute;
-            top: 15vh;
-            left: 0;
-            width: 100%;
-            height: 15vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%23FFFFFF'/%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%23FFFFFF'/%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23FFFFFF'/%3E%3C/svg%3E");
-            background-size: cover;
-            z-index: -1;
-        }
-
-        .blood-drop {
-            position: absolute;
-            width: 15px;
-            height: 20px;
-            background-color: rgba(234, 56, 76, 0.2);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            transform: rotate(135deg);
-            filter: blur(2px);
-            opacity: 0;
-            z-index: -1;
-            animation: drop 15s infinite linear;
-        }
-
-        @keyframes drop {
-            0% {
-                transform: rotate(135deg) translateY(-100vh) translateX(0);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.5;
-            }
-            80% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: rotate(135deg) translateY(100vh) translateX(20px);
-                opacity: 0;
-            }
-        }
-
-        .container {
-            max-width: 900px;
-            width: 100%;
-            margin: 7vh auto 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            padding: 2rem;
-            position: relative;
-            z-index: 10;
-            animation: fadeIn 0.8s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo-circle {
-            width: 2.5rem;
-            height: 2.5rem;
-            background-color: var(--blood);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-weight: 700;
-            font-size: 1.2rem;
-            animation: pulse 2s infinite;
-            margin-right: 0.75rem;
-        }
-
-        .page-title {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .page-title h1 {
-            color: var(--blood);
-            font-size: 2rem;
-            font-weight: 600;
-            position: relative;
-            display: inline-block;
-        }
-
-        .page-title h1::after {
-            content: '';
-            position: absolute;
-            width: 70%;
-            height: 4px;
-            background-color: var(--blood-light);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .products-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-
-        .products-table th {
-            background-color: var(--blood);
-            color: var(--white);
-            font-weight: 600;
-            padding: 1rem;
-            text-align: left;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .products-table th:first-child {
-            border-top-left-radius: 0.5rem;
-        }
-
-        .products-table th:last-child {
-            border-top-right-radius: 0.5rem;
-            text-align: center;
-        }
-
-        .products-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--gray-200);
-            color: var(--gray-800);
-        }
-
-        .products-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .products-table tr:nth-child(even) {
-            background-color: var(--gray-100);
-        }
-
-        .products-table tr:hover {
-            background-color: var(--gray-200);
-        }
-
-        .products-table td:last-child {
-            text-align: center;
-        }
-
-        .buy-btn {
-            display: inline-block;
-            background-color: var(--blood);
-            color: var(--white);
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .buy-btn:hover {
-            background-color: var(--blood-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(234, 56, 76, 0.3);
-        }
-
-        .buy-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
-        }
-
-        .buy-btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-        
-        .empty-message {
-            text-align: center;
-            padding: 2rem;
-            color: var(--gray-600);
-            font-style: italic;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--blood);
-            text-decoration: none;
-            margin-top: 1.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: var(--blood-dark);
-        }
-
-        .back-link::before {
-            content: '←';
-            margin-right: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .back-link:hover::before {
-            transform: translateX(-3px);
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(234, 56, 76, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(234, 56, 76, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(234, 56, 76, 0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-                margin-top: 5vh;
-            }
-            
-            .page-title h1 {
-                font-size: 1.5rem;
-            }
-            
-            .products-table th, 
-            .products-table td {
-                padding: 0.75rem 0.5rem;
-            }
-            
-            .buy-btn {
-                padding: 0.4rem 1rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 1rem;
-            }
-            
-            .container {
-                padding: 1rem;
-            }
-            
-            .page-title h1 {
-                font-size: 1.25rem;
-            }
-            
-            .products-table {
-                font-size: 0.9rem;
-            }
-            
-            .products-table th, 
-            .products-table td {
-                padding: 0.6rem 0.4rem;
-            }
-        }
-    </style>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('asset/css/viewProduct.css')}}">
 </head>
 <body>
     <div class="wave-top"></div>
@@ -396,6 +26,13 @@
             <h1>Available Blood Products</h1>
         </div>
         
+        @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+        @endif
+
+
         <table class="products-table">
             <thead>
                 <tr>
@@ -416,7 +53,12 @@
                     <td>{{$bank['id']}}</td>
                     <td>{{$bank->name ?? 'N/A'}}</td>
                     <td>
-                        <a href="buyproduct/{{$bank['id']}}" class="buy-btn">View</a>
+                        @if(!empty($bank['id']))
+                        <a href="{{ route('seeInventory', $bank['id']) }}" class="buy-btn">View</a>
+                        @else
+                          <span class="text-muted">No products available</span>
+                        @endif
+                        <!---<a href="buyproduct/{{$bank['id']}}" class="buy-btn">View</a>-->
                     </td>
                 </tr>
                 @endforeach

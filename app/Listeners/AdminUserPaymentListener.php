@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Models\User;
 use App\Models\Order;
-
 use App\Models\Blood_Bank;
 use App\Mail\UserPaymentMail;
 use App\Events\UserPaymentEvent;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserPaymentListener
+class AdminUserPaymentListener
 {
     /**
      * Create the event listener.
@@ -26,24 +26,22 @@ class UserPaymentListener
      */
     public function handle(UserPaymentEvent $event): void
     {
-        $orders = Order::where('email',$event->email)->get();
-            if ($orders->isEmpty()) {
-                   return;     
-                }
-
+        $admin = User::where('designation','admin')->get();
+        $userOrder = Order::where('email',$event->email)->get();
+ 
         $summary = [];
-        foreach($orders AS $order) {
-        $bloodbankid = $order->blood_inventory;
-        $bank = Blood_Bank::find($bloodbankid->blood_bank_id);
-        $summary[] = [
+
+        foreach($userOrder AS $order) {
+            $bloodbankid = $order->blood_inventory->blood_bank_id;
+            $bank = Blood_Bank::find($bloodbankid);
+            $summary[] = [
            'email'=> $order->email,
            'quantity' => $order->quantity,
            'type' => $order->blood_inventory->blood_type,
            'blood_bank' => $bank->name
          ];
-}
-       
-    Mail::to($event->email)->send(new UserPaymentMail($summary));
-       
-    }
+         }
+
+         Mail::to($admin->pluck('email'))->send(new UserPaymentMail($summary));
+    }  
 }

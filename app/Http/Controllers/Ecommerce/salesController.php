@@ -28,12 +28,6 @@ class salesController extends Controller
 
 //This Method Displays All The Blood Banks And Available Blood;
 
-public function test()
-{
-    dd(Alert::class);
-}
-
-
     public function Products() {
         $specificBank = Blood_Bank::all();
         
@@ -43,18 +37,20 @@ public function test()
     public function buyProduct($id) {
          $user = auth()->user();
          $userdata = $user->blood_bank->id;
-         /*$bloodInventory = BloodInventory::where("blood_bank_id",$id)
-                          ->firstOrFail();
-          $bank_id     =   $bloodInventory->blood_bank_id;  
-           */             
-         //dd($user->blood_bank->id);
+        
+         //dd($userdata);
          
-         $product = BloodInventory::with('bloodbank')->where("blood_bank_id",$id)->orderBy('blood_type','asc')->get();
+          
+         //$product = BloodInventory::with('bloodbank')->where("blood_bank_id",$userdata)->orderBy('blood_type','asc')->get();
+          $product = BloodInventory::with('bloodbank')->where("blood_bank_id",$id)->orderBy('blood_type','asc')->get();
          //$company = BloodInventory::with('bloodbank')->where("blood_bank_id",$id)->first();
         
-          if($product->isEmpty()) {
-            return redirect()->back()->with('error','You Have No Record');
+          
+
+         if ($product->isEmpty()) {
+           return redirect()->route('view.products')->with('error','You Have No Record');
           }
+
           $company = $product->first();
          
          return view('sales.chooseProduct',compact('product','company'));
@@ -267,12 +263,78 @@ public function test()
     }
 
     public function print_invoice() {
-      $payment = Payment::where('user_id',auth()->id())->get();
-      $order = Order::where('user_id',auth()->id())->get();
+      $payment = Payment::where('user_id',auth()->id())->sum('gross_total');
+      $orders = Order::where('user_id',auth()->id())->get();
       $pdf = true;
-      $pdfDoc = PDF::loadView("sales.payment_reciept",compact('payment','order','pdf'));
+      $pdfDoc = PDF::loadView("sales.payment_reciept",compact('payment','orders','pdf'));
       return $pdfDoc->download("order_detail.pdf");
     }
+
+ //Test Method
+     function test() {
+        $user = auth()->user();
+        $order = Order::where('user_id',$user->id)->get();
+         
+        $result = [];
+          
+        foreach($order As $orders) {
+          
+        $inventory = $orders;
+
+        $result[] = [
+           'email' => $inventory->email,
+           'status' => $inventory->status,
+           'inventory_id' => $inventory->blood_inventory_id
+        ];
+           
+        }
+
+        //dd($result);
+          
+          
+          foreach($result As $data) {
+          //dd($data);
+           
+          $inventoryId = BloodInventory::where("id",$data['inventory_id'])->get();
+          //($inventoryId);
+          foreach($inventoryId AS $inventory) {
+            $summary[] = [
+              'blood_bank_id' => $inventory->blood_bank_id,
+              'bank_type' => $inventory->blood_type,
+
+          ];
+          }
+         
+        
+          
+          }
+
+          foreach($summary As $summ) {
+
+          $bank_id = Blood_Bank::where('id',$summ['blood_bank_id'])->get();
+         foreach($bank_id AS $bank)
+          $bankCreds[] = [
+          'email' => $bank->email,
+          ];
+
+          }
+
+          
+
+          dd($bankCreds);
+          
+
+            //dd($summary);
+           
+           return view('Mail.tester',compact('summary')); 
+                    
+
+          
+        
+
+       
+        
+         }
 
 
    

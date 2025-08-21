@@ -8,7 +8,9 @@
     
 </head>
 <body>
-
+<!--        
+<pre>{{ json_encode(request()->all(), JSON_PRETTY_PRINT) }}</pre>
+-->
 
 @section('navbar')
  <h2>Admin Panel</h2>
@@ -35,6 +37,41 @@
             <div class="card">Revenue: N{{$revenue}}</div>
     </div>
 @endsection
+
+
+
+@section('user_table')
+<h3>Users Table</h3>
+        <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email Address</th>
+                  <th>Home Address</th>
+                  <th>Phone</th>
+                  <th>Action</th>
+                </tr>
+
+                @foreach($users as $user)
+                 <tr>
+                 <td>{{$user['id']}}</td>
+                 <td>{{$user['name']}}</td>
+                 <td>{{$user['email']}}</td>
+                 <td>{{$user['address']}}</td>
+                 <td>{{$user['phone']}}</td>
+                 <td>
+                 <a href="{{route('admin.edit_user',$user->id)}}" style="color:blue; cursor:pointer">update</a> 
+                 <a href="{{route('admin.delete_user',$user->id)}}" style="color:red; cursor:pointer">delete</a>
+                 </td> 
+                 <tr>
+                @endforeach
+        </table>
+       {{ $users->appends(['orders_page' => request('orders_page')])->links() }}
+
+@endsection
+
+
+
 
 
 @section('order_table')
@@ -64,37 +101,13 @@
                 </tr>
                @endforeach
             </table>
-   {{ $order->links() }}
+ {{ $order->appends(['users_page' => request('users_page')])->links() }}
+
+
+<!--  {{ $order->appends(['orders_page' => request('orders_page')])->links() }}-->
+
 @endsection
 
-@section('user_table')
-<h3>Users Table</h3>
-        <table>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Email Address</th>
-                  <th>Home Address</th>
-                  <th>Phone</th>
-                  <th>Action</th>
-                </tr>
-
-                @foreach($users as $user)
-                 <tr>
-                 <td>{{$user['id']}}</td>
-                 <td>{{$user['name']}}</td>
-                 <td>{{$user['email']}}</td>
-                 <td>{{$user['address']}}</td>
-                 <td>{{$user['phone']}}</td>
-                 <td>
-                 <a href="{{route('admin.edit_user',$user->id)}}" style="color:blue; cursor:pointer">update</a> 
-                 <a href="{{route('admin.delete_user',$user->id)}}" style="color:red; cursor:pointer">delete</a>
-                 </td> 
-                 <tr>
-                @endforeach
-        </table>
-         {{ $users->links() }}
-@endsection
 
 
 
@@ -126,7 +139,8 @@
                  <tr>
                 @endforeach
         </table>
-         {{ $payment->links() }}
+        {{ $payment->appends(request()->except('payments_page'))->appends(['payments_page' => request('payments_page')])->links() }}
+
 @endsection
 
 
@@ -156,7 +170,8 @@
                  <tr>
                 @endforeach
         </table>
-       {{ $inventory->links() }}
+   {{ $inventory->appends(request()->except('inventory_page'))->appends(['inventory_page' => request('inventory_page')])->links() }}
+
 
 @endsection
 
@@ -175,7 +190,7 @@
 
                 @foreach($bank as $bankdata)
                  <tr>
-                 <td>{{$data['id']}}</td>
+                 <td>{{$bankdata['id']}}</td>
                  <td>{{$bankdata->name}}</td>
                  <td>{{$bankdata->email}}</td>
                  <td>{{$bankdata->phone}}</td>
@@ -189,6 +204,7 @@
                 @endforeach
         </table>
  
+{{ $bank->appends(request()->except('banks_page'))->appends(['banks_page' => request('banks_page')])->links() }}
 
 @endsection
 

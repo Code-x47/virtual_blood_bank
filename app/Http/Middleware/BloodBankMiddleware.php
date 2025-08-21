@@ -19,11 +19,17 @@ class BloodBankMiddleware
         $user = auth()->user();
         $bloodInventoryId = (int) $request->route('id');
 
-        $bloodInventory = BloodInventory::where("blood_bank_id",$bloodInventoryId)
-        ->firstOrFail();
-         $bank_id     =   $bloodInventory->blood_bank_id;  
+        /*$bloodInventory = BloodInventory::where("blood_bank_id",$bloodInventoryId)
+        ->first();
 
-        if(!$user || !$user->blood_bank || $user->blood_bank->id !== $bank_id) {
+        if (!$bloodInventory) {
+      
+        return $next($request);
+    }
+
+         $bank_id     =   $bloodInventory->blood_bank_id;  */
+
+        if(!$user || !$user->blood_bank || $user->blood_bank->id !== $bloodInventoryId ) {
             abort(403, 'Unauthorized action.');
         }
         return $next($request);

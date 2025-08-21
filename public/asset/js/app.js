@@ -1,4 +1,4 @@
-const app = Vue.createApp({
+/*const app = Vue.createApp({
     data() {
     return {
       user: true,
@@ -49,3 +49,46 @@ const app = Vue.createApp({
     }
     }
 }).mount('#app');
+*/
+
+
+const app = Vue.createApp({
+    data() {
+        return {
+            user: false,
+            inventory: false,
+            order: false,
+            payment: false,
+            bank: false
+        }
+    },
+    mounted() {
+        const section = localStorage.getItem('section') || 'user';
+        this[section] = true;
+    },
+    methods: {
+        myInventory() {
+            this.setSection('inventory');
+        },
+        myUsers() {
+            this.setSection('user');
+        },
+        myOrders() {
+            this.setSection('order');
+        },
+        myPayments() {
+            this.setSection('payment');
+        },
+        myBanks() {
+            this.setSection('bank');
+        },
+        setSection(sectionName) {
+            // Reset all
+            this.user = this.inventory = this.order = this.payment = this.bank = false;
+            // Set selected
+            this[sectionName] = true;
+            localStorage.setItem('section', sectionName);
+        }
+    }
+}).mount('#app');
+

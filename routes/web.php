@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\testController;
+use App\Http\Controllers\adminController;
 use App\Http\Controllers\General\userController;
 use App\Http\Controllers\Bank\BloodBankController;
 use App\Http\Controllers\Ecommerce\salesController;
-use App\Http\Controllers\adminController;
 
 
 
@@ -12,13 +13,14 @@ use App\Http\Controllers\adminController;
 Route::view("/","index");
 Route::view("about","about");
 
+
 //ROUTE RESPONSIBLE FOR LOGIN, REGISTER, LOGOUT AND OTHERS
 Route::controller(userController::class)->group(function(){
    Route::view("register","user.registerForm")->name('user.reg');
    Route::post("register","register")->name('user.registration');
    Route::view("login","user.loginForm")->name('user.login');
    Route::post("/login","login");  //->name('user.login');
-
+   
 
    Route::Get("/logout","logout");
 });
@@ -34,24 +36,27 @@ Route::middleware(['web', 'auth', 'designation'])
         Route::Post('inventory','RegInventory')->name('reg.inventory');//This Route Facilitates Inventory Registration method at the controller;
         Route::Get('agent_view_order','view_orders')->name('bank.view_orders'); 
         Route::Get('agent_view_payment','view_payment')->name('bank.view_payment'); 
+        //Route::Get('test','test');
 });
 });
 
-Route::group(['middleware' => 'auth'],function() {    
-       Route::controller(salesController::class)->group(function(){
-  
+Route::group(['middleware' => 'auth'],function() { 
+       
+        Route::controller(salesController::class)->group(function(){
         Route::view("/user_dashboard","sales.userDashboard")->name('user.dashboard');
         Route::view("/admin_dashboard","sales.adminDashboard")->name('admin.dashboard');
+        Route::get("buyproduct/{id}", 'buyProduct')->name('seeInventory')->middleware('seeInventory');   
+       
        
         Route::Get("/view_product","Products")->name('view.products')->middleware(['designation']); //This Route Displays All The Blood Banks And Available Blood;
         Route::Get("add_to_cart","addTocart")->name('blood.add_2_cart'); //This Route is responsible for adding Blood Type To Cart;
-        Route::Get("buyproduct/{id}","buyProduct")->name('seeInventory')->middleware('seeInventory');
+       
         Route::Get('remove_item/{id}','agent_remove_item')->name('agent_remove_item');
         Route::view("dash","sales.dashboard_template");
+        Route::Get("test","test");
   
 
         //Customers Controller Section
-        Route::Get("test","test");
         Route::Get("/customer_view_product","customer_view")->name('view.products_by_customers'); //This Route Displays All The Blood Banks And Available Blood;
         Route::Get('/customerBuy/{id}','customer_buy'); //This Route Is Responsible For Viewing Items Your Desire To Add To Cart
         Route::Get('/addToCart/{id}','add2cart')->name('customer.add2cart'); //This Route Is Responsible For Adding Item To Cart

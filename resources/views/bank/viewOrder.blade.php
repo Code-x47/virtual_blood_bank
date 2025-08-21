@@ -1,12 +1,10 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orders Example - LifeBlood</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
           --blood: #ea384c;
@@ -36,27 +34,28 @@
           line-height: 1.6;
           color: var(--gray-800);
           background-color: var(--gray-100);
-          padding: 2rem;
+          padding: clamp(0.5rem, 3vw, 2rem);
+          min-height: 100vh;
         }
         
         /* Orders Table Styles */
         .orders-container {
           width: 100%;
           max-width: 1200px;
-          margin: 2rem auto;
-          padding: 0 1rem;
+          margin: clamp(1rem, 3vw, 2rem) auto;
+          padding: 0 clamp(0.5rem, 2vw, 1rem);
           position: relative;
           overflow: hidden;
         }
 
         .orders-header {
           text-align: center;
-          margin-bottom: 2rem;
+          margin-bottom: clamp(1.5rem, 4vw, 2rem);
           position: relative;
         }
 
         .orders-header h1 {
-          font-size: 2.5rem;
+          font-size: clamp(1.8rem, 5vw, 2.5rem);
           font-weight: 700;
           color: var(--blood);
           margin-bottom: 0.5rem;
@@ -70,7 +69,7 @@
           bottom: -0.5rem;
           left: 50%;
           transform: translateX(-50%);
-          width: 6rem;
+          width: clamp(4rem, 10vw, 6rem);
           height: 0.25rem;
           background-color: var(--blood);
           border-radius: 0.25rem;
@@ -82,10 +81,13 @@
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
           overflow: hidden;
           margin-bottom: 2rem;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
         }
 
         .orders-table {
           width: 100%;
+          min-width: 700px;
           border-collapse: collapse;
           overflow: hidden;
         }
@@ -96,15 +98,28 @@
         }
 
         .orders-table th {
-          padding: 1.25rem 1rem;
+          padding: clamp(0.75rem, 2vw, 1.25rem) clamp(0.5rem, 1.5vw, 1rem);
           text-align: left;
           font-weight: 600;
           position: relative;
+          font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+          white-space: nowrap;
+          border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .orders-table th:last-child {
+          border-right: none;
         }
 
         .orders-table td {
-          padding: 1rem;
+          padding: clamp(0.75rem, 2vw, 1rem);
           border-bottom: 1px solid var(--gray-200);
+          font-size: clamp(0.75rem, 1.6vw, 0.875rem);
+          vertical-align: middle;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 150px;
         }
 
         .orders-table tbody tr:last-child td {
@@ -128,6 +143,7 @@
           padding: 0.25rem 0.5rem;
           border-radius: 0.25rem;
           display: inline-block;
+          font-size: clamp(0.7rem, 1.5vw, 0.875rem);
         }
 
         .cancel-link::before {
@@ -165,7 +181,8 @@
           padding: 0.25rem 0.75rem;
           border-radius: 999px;
           font-weight: 500;
-          font-size: 0.875rem;
+          font-size: clamp(0.7rem, 1.4vw, 0.875rem);
+          white-space: nowrap;
         }
 
         .status-pending {
@@ -189,16 +206,25 @@
         }
 
         .back-to-dashboard {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
           margin-top: 1rem;
           color: var(--gray-600);
           text-decoration: none;
           transition: color 0.3s ease;
           font-weight: 500;
+          font-size: clamp(0.8rem, 1.6vw, 0.95rem);
         }
 
         .back-to-dashboard:hover {
           color: var(--blood);
+        }
+
+        .no-orders {
+          text-align: center;
+          padding: 3rem 1rem;
+          color: var(--gray-600);
+          font-size: clamp(1rem, 2.5vw, 1.125rem);
         }
 
         /* Blood drop animation */
@@ -220,6 +246,189 @@
 
         .blood-drop:nth-child(even) {
           animation: float-drop 6s infinite ease-in-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          body {
+            padding: 0.5rem;
+          }
+
+          .orders-container {
+            padding: 0 0.25rem;
+          }
+
+          .orders-table {
+            min-width: 650px;
+          }
+
+          .orders-table th {
+            font-size: 0.75rem;
+            padding: 0.75rem 0.5rem;
+          }
+
+          .orders-table td {
+            font-size: 0.75rem;
+            padding: 0.75rem 0.5rem;
+            max-width: 120px;
+          }
+
+          .blood-drop {
+            display: none;
+          }
+
+          /* Make specific columns more readable on mobile */
+          .orders-table th:nth-child(3), 
+          .orders-table td:nth-child(3) {
+            max-width: 180px;
+          }
+
+          .orders-table th:nth-child(4), 
+          .orders-table td:nth-child(4) {
+            max-width: 100px;
+          }
+
+          .orders-table th:nth-child(6), 
+          .orders-table td:nth-child(6) {
+            max-width: 90px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .orders-table {
+            min-width: 580px;
+          }
+
+          .orders-table th {
+            font-size: 0.7rem;
+            padding: 0.6rem 0.4rem;
+          }
+
+          .orders-table td {
+            font-size: 0.7rem;
+            padding: 0.6rem 0.4rem;
+            max-width: 100px;
+          }
+
+          .cancel-link {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+          }
+
+          .order-status {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+          }
+
+          /* Optimize column widths for very small screens */
+          .orders-table th:nth-child(1), 
+          .orders-table td:nth-child(1) {
+            max-width: 60px;
+          }
+
+          .orders-table th:nth-child(2), 
+          .orders-table td:nth-child(2) {
+            max-width: 70px;
+          }
+
+          .orders-table th:nth-child(3), 
+          .orders-table td:nth-child(3) {
+            max-width: 140px;
+          }
+
+          .orders-table th:nth-child(4), 
+          .orders-table td:nth-child(4) {
+            max-width: 80px;
+          }
+
+          .orders-table th:nth-child(5), 
+          .orders-table td:nth-child(5) {
+            max-width: 80px;
+          }
+
+          .orders-table th:nth-child(6), 
+          .orders-table td:nth-child(6) {
+            max-width: 80px;
+          }
+
+          .orders-table th:nth-child(7), 
+          .orders-table td:nth-child(7) {
+            max-width: 60px;
+          }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .orders-table {
+            min-width: 700px;
+          }
+
+          .orders-table th,
+          .orders-table td {
+            padding: 0.875rem 0.75rem;
+            font-size: 0.8rem;
+          }
+        }
+
+        /* Large screen adjustments */
+        @media (min-width: 1200px) {
+          .orders-container {
+            padding: 0 2rem;
+          }
+
+          .orders-table th,
+          .orders-table td {
+            padding: 1.25rem 1rem;
+            font-size: 0.95rem;
+          }
+
+          .orders-table td {
+            max-width: 200px;
+          }
+        }
+
+        /* Horizontal scroll indicator */
+        .orders-table-container::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(45deg, transparent 40%, var(--blood) 60%);
+          opacity: 0.3;
+          pointer-events: none;
+        }
+
+        @media (min-width: 769px) {
+          .orders-table-container::after {
+            display: none;
+          }
+        }
+
+        /* Improved touch scrolling for mobile */
+        @media (max-width: 768px) {
+          .orders-table-container {
+            position: relative;
+          }
+
+          .orders-table-container::-webkit-scrollbar {
+            height: 8px;
+          }
+
+          .orders-table-container::-webkit-scrollbar-track {
+            background: var(--gray-200);
+            border-radius: 4px;
+          }
+
+          .orders-table-container::-webkit-scrollbar-thumb {
+            background: var(--blood);
+            border-radius: 4px;
+          }
+
+          .orders-table-container::-webkit-scrollbar-thumb:hover {
+            background: var(--blood-dark);
+          }
         }
     </style>
 </head>

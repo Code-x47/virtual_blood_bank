@@ -28,7 +28,7 @@ class userController extends Controller
 
     }
 
-    public function login(Request $req) {
+    /*public function login(Request $req) {
 
        $loginData = $req->validate([
            "email"=>"Required",
@@ -67,11 +67,42 @@ class userController extends Controller
         }
     
            
+    }*/
+
+        public function login(Request $req) {
+    $loginData = $req->validate([
+        "email" => "required",
+        "password" => "required"
+    ]);
+
+    if (auth()->attempt([
+        "email" => $loginData['email'],
+        "password" => $loginData['password']
+    ])) {
+        $req->session()->put('data', $loginData['email']);
+
+        $user = auth()->user();
+
+        if ($user->designation == "admin") {
+            return redirect('/admin_dashboard');
+        } elseif ($user->designation == "agent") {
+            return redirect('/agent_dashboard');
+        } else {
+            return redirect('/user_dashboard');
+        }
     }
+
+    // Login failed
+    return back()->withErrors(['login' => 'Invalid email or password.']);
+}
+
 
 
     public function logout(Request $req) {
        auth()->logout();
        return redirect('/login');
     }
+
+   
+    
 }
