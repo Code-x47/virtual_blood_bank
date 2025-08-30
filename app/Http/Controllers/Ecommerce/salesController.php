@@ -229,7 +229,7 @@ class salesController extends Controller
          new OrderJob(auth()->user()->email),
          new AdminJob()
         ])->dispatch();
-         //event(new UserPaymentEvent($user->email));
+         event(new UserPaymentEvent($user->email));
         }
 
         DB::commit();
@@ -278,7 +278,6 @@ class salesController extends Controller
     }
 
     public function print_invoice() {
-      //$payment = Payment::where('user_id',auth()->id())->value('gross_total');
 
        $payment = Payment::where('user_id',auth()->id())
                            ->latest()
