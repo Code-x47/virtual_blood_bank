@@ -9,6 +9,7 @@ use App\Jobs\AdminJob;
 use App\Jobs\OrderJob;
 use App\Models\Payment;
 use App\Models\Blood_Bank;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\BloodInventory;
 use App\Events\UserPaymentEvent;
@@ -127,16 +128,22 @@ class salesController extends Controller
       $cart = Cart::where('user_id',$user)->get();
 
       $user_id = auth()->user()->id;
+
+       
+      $transactionId = 'txn_' . Str::random(10);
+
+
       foreach($cart as $cart_id){
        $order = new Order;
        $order->user_id = $user_id;
        $order->blood_inventory_id = $cart_id->blood_inventory_id;
        $order->quantity = $cart_id->quantity;
        $order->price = $cart_id->price;
+       $order->transaction_id = $transactionId;
        $order->delivery_address = $req->delivery_address;
        $order->order_date = $req->order_date;
        $order->email = auth()->user()->email;
-      
+    
        $order->save();
 
       
@@ -208,6 +215,7 @@ class salesController extends Controller
         $pay->payment_method = "cash_on_delivery";
         $pay->gross_total = $total;
         $pay->user_id = auth()->id();
+        $pay->transaction_id = $orders->transaction_id;
         $pay->email = auth()->user()->email;
        
         $paid = $pay->save();
@@ -221,13 +229,21 @@ class salesController extends Controller
          new OrderJob(auth()->user()->email),
          new AdminJob()
         ])->dispatch();
-         event(new UserPaymentEvent($user->email));
+         //event(new UserPaymentEvent($user->email));
         }
 
         DB::commit();
 
-        $payment = Payment::where('user_id',auth()->id())->get();
-        $order = Order::where('user_id',auth()->id())->get();
+        $payment = Payment::where('user_id',auth()->id())->latest()->first();
+       
+        $latestTransaction = Order::where('user_id', auth()->id())
+        ->latest()
+        ->value('transaction_id');
+
+        $order = Order::where('user_id', auth()->id())
+              ->where('transaction_id', $latestTransaction)
+              ->get();
+              
         $pdf = true;
         $pdfDoc = PDF::loadView('sales.podPay',compact('total','order','pdf','payment'));
         return $pdfDoc->download("order_detail.pdf");
@@ -246,27 +262,40 @@ class salesController extends Controller
       $payment = Payment::where('user_id',auth()->id())
                            ->latest()
                            ->first();
+                          
                  
-      $orders = Order::with('payment')
+      $latestpayment = Order::where('user_id',auth()->id())
+                           ->latest()
+                           ->value('transaction_id');
+
+      $order = Order::with('payment')
                    ->where('user_id',auth()->id())
+                   ->where('transaction_id', $latestpayment)
                    ->get();
 
-       if($orders->isEmpty()) {
-        return view('sales.payment_reciept')
-                 ->with([
-                  'payment' => $payment,
-                  'orders' => $orders,
-                  "error"=>"Its Not Proper To Print An Empty Reciept"
-                 ]);
-       }            
-       return view("sales.payment_reciept",compact('payment','orders'));
+                
+       return view("sales.payment_reciept",compact('payment','order','latestpayment'));
     }
 
     public function print_invoice() {
-      $payment = Payment::where('user_id',auth()->id())->sum('gross_total');
-      $orders = Order::where('user_id',auth()->id())->get();
+      //$payment = Payment::where('user_id',auth()->id())->value('gross_total');
+
+       $payment = Payment::where('user_id',auth()->id())
+                           ->latest()
+                           ->first();
+                          
+
+      $latestpayment = Order::where('user_id',auth()->id())
+                           ->latest()
+                           ->value('transaction_id');
+
+      $order = Order::with('payment')
+                   ->where('user_id',auth()->id())
+                   ->where('transaction_id', $latestpayment)
+                   ->get();
+
       $pdf = true;
-      $pdfDoc = PDF::loadView("sales.payment_reciept",compact('payment','orders','pdf'));
+      $pdfDoc = PDF::loadView("sales.payment_reciept",compact('payment','order','pdf'));
       return $pdfDoc->download("order_detail.pdf");
     }
 

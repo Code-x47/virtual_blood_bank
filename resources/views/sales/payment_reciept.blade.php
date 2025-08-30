@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Receipt Summary</h1>
+    <h1>Transaction Receipt</h1>
 
     <table>
         <thead>
@@ -34,29 +34,28 @@
                ?>
            
             
-
-            @foreach($orders as $order) 
-
-            @if($order && is_object($order) && isset($order->blood_inventory))
-            <tr>
-                <td>{{$order->blood_inventory->blood_type}}</td>
-                <td>{{$order['quantity']}}</td>
-                <td>{{$order['delivery_address']}}</td>
-                <td>{{$order['order_date']}}</td>
-                <td>N{{$order['price']}}</td>
-                <td>{{$order['status']}}</td>
-            </tr>
-            @else
-             <tr>
-                 <td colspan="6">Invalid order data or missing blood inventory</td>
-            </tr>
-            @endif
+@foreach ($order as $orders)
+    
+       
+@if($orders && is_object($orders) && isset($orders->blood_inventory))
+<tr>
+<td>{{$orders->blood_inventory->blood_type}}</td>
+<td>{{$orders['quantity']}}</td>
+<td>{{$orders['delivery_address']}}</td>
+<td>{{$orders['order_date']}}</td>
+<td>N{{$orders['price']}}</td>
+<td>{{$orders['status']}}</td>
+</tr>
+@else
+<tr>
+<td colspan="6">Invalid order data or missing blood inventory</td>
+ </tr>
+ @endif
+ @endforeach  
           
-            @endforeach
-            
-        </tbody>
-    </table>
-
+         
+</tbody>
+</table>
     
     <div class="message">
        
@@ -71,18 +70,20 @@
     @if(!isset($pdf))
 
     <a id="btn" href="{{ Route('printPdf') }}" onclick="display()">Print Receipt</a>
-
+    
     @endif
 
     @else
     <h1>You Cant Print An Empty Result</h1>
-
+    
+    <a class="btn-secondary" href="{{route('user.dashboard')}}">Back To Dashboard</a>
+     
     @endif
 
 
    
 
-    <a class="btn-secondary" href="{{route('user.dashboard')}}">Back To Dashboard</a>
+  
 
 </div>
 </body>

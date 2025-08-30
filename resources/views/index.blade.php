@@ -16,7 +16,7 @@
     <div class="container">
       <div class="logo">
         <div class="logo-circle">B+</div>
-        <span class="logo-text">LifeBlood</span>
+        <span class="logo-text">RedDropz</span>
       </div>
       <div class="nav-links" id="navLinks">
         <a href="#" class="active">Home</a>
@@ -214,7 +214,7 @@
       <div class="footer-top">
         <div class="footer-logo">
           <div class="logo-circle">B+</div>
-          <span>LifeBlood</span>
+          <span>RedDropz</span>
         </div>
         <div class="footer-links">
           <div class="footer-column">
@@ -241,7 +241,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 LifeBlood. All rights reserved.</p>
+        <p>&copy; 2025 RedDropz. All rights reserved.</p>
         <div class="footer-social">
           <a href="#" class="social-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

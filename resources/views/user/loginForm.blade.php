@@ -326,8 +326,8 @@
            @endif
 
         <div class="login-logo">
-            <div class="logo-circle">LB</div>
-            <div class="logo-text">LifeBlood</div>
+            <div class="logo-circle">RD</div>
+            <div class="logo-text">RedDropz</div>
         </div>
         
         <h1>Welcome Back</h1>

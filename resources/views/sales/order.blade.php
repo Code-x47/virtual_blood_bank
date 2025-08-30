@@ -18,6 +18,7 @@
         <thead>
             <tr>
                 <th>Blood Type</th>
+                <th>Inventory Id</th>
                 <th>Quantity</th>
                 <th>Delivery Address</th>
                 <th>Order Date</th>
@@ -30,6 +31,7 @@
             @foreach($order as $order)
                 <tr>
                     <td>{{ $order->blood_inventory->blood_type }}</td>
+                    <td>{{ $order->blood_inventory->id }}</td>
                     <td>{{ $order['quantity'] }}</td>
                     <td>{{ $order['delivery_address'] }}</td>
                     <td>{{ $order['order_date'] }}</td>

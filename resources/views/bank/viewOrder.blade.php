@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orders Example - LifeBlood</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         :root {
           --blood: #ea384c;
@@ -430,6 +431,27 @@
             background: var(--blood-dark);
           }
         }
+
+
+        /* Change active pagination button to red */
+.page-item.active .page-link {
+    background-color: #dc3545;  /* Bootstrap red */
+    border-color: #dc3545;
+    color: #fff;
+}
+
+/* Change hover effect */
+.page-link:hover {
+    background-color: #f8d7da;  /* light red hover */
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+/* Change default link color */
+.page-link {
+    color: #dc3545;  /* red text */
+}
+
     </style>
 </head>
 <body>
@@ -476,10 +498,16 @@
             @endforeach    
             </tbody>
             </table>
+           
+          
+             {{$order->links()}}
+
         </div>
         
         <a href="{{Route('agent.dashboard')}}" class="back-to-dashboard">← Back to Dashboard</a>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoVn0E+0gg6Lr9Hf7jL+T1U8GQX84QZkXWGLPZ5yD2TmnsF" crossorigin="anonymous"></script>    
 
     <script>
         // Add some random floating blood drops for decoration

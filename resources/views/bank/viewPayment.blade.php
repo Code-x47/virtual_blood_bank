@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Details - LifeBlood</title>
     <link rel="stylesheet" href="asset/css/payment.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
 
 <style>
 
@@ -68,6 +70,7 @@
                 </tbody>
             </table>
         </div>
+            {{$payment->links()}}
         
         <a href="{{Route('agent.dashboard')}}" class="back-to-dashboard">← Back to Dashboard</a>
     </div>
@@ -95,5 +98,7 @@
             createBloodDrops(6);
         });
     </script>
+
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoVn0E+0gg6Lr9Hf7jL+T1U8GQX84QZkXWGLPZ5yD2TmnsF" crossorigin="anonymous"></script>    
 </body>
 </html>

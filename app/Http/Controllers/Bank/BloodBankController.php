@@ -77,7 +77,7 @@ class BloodBankController extends Controller
           $userBank = $user->blood_bank->id;
           $inventory = BloodInventory::where("blood_bank_id", $userBank)->pluck('id');
           $order = Order::with('blood_inventory')
-                   ->whereIn('blood_inventory_id',$inventory)->get();
+                   ->whereIn('blood_inventory_id',$inventory)->paginate(5);
                     
           return view('bank.viewOrder',compact('order'));
         }
@@ -89,7 +89,7 @@ class BloodBankController extends Controller
           $order = Order::with('blood_inventory')
                       ->whereIn('blood_inventory_id',$inventory)->pluck('id');
                      
-          $payment = Payment::whereIn('order_id',$order)->get();
+          $payment = Payment::whereIn('order_id',$order)->paginate(5);
           return view('bank.viewPayment',compact('payment'));
         }
 
