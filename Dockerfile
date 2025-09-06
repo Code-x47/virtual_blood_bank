@@ -22,7 +22,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 # Cache Laravel config
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+
 
 # Expose Render's PORT
 EXPOSE 10000
