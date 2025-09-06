@@ -1,9 +1,9 @@
 # Use PHP with FPM
 FROM php:8.3-fpm
 
-# Install system dependencies
+# Install system dependencies + sqlite3 CLI
 RUN apt-get update && apt-get install -y \
-    git curl unzip libpng-dev libonig-dev libxml2-dev zip \
+    git curl unzip sqlite3 libpng-dev libonig-dev libxml2-dev zip \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Install Composer
@@ -15,14 +15,17 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
-# Install dependencies
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Cache Laravel configuration
+# Set permissions for Laravel
+RUN chown -R www-data:www-data storage bootstrap/cache
+
+# Cache Laravel config
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-# Expose Render's PORT variable
+# Expose Render's PORT
 EXPOSE 10000
 
-# Run Laravel's internal server
+# Start Laravel (Render sets $PORT automatically)
 CMD php artisan serve --host=0.0.0.0 --port=$PORT
