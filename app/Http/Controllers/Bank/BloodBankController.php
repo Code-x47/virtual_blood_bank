@@ -74,6 +74,12 @@ class BloodBankController extends Controller
         
         public function view_orders() {
           $user = Auth()->user();
+
+           
+         if (!$user->blood_bank) {
+          return back()->with('error', 'You are not assigned to any blood bank.');
+         }
+
           $userBank = $user->blood_bank->id;
           $inventory = BloodInventory::where("blood_bank_id", $userBank)->pluck('id');
           $order = Order::with('blood_inventory')
@@ -84,6 +90,11 @@ class BloodBankController extends Controller
         
         public function view_payment() {
           $user = auth()->user();
+
+          if (!$user->blood_bank) {
+          return back()->with('error', 'You are not assigned to any blood bank.');
+          }
+
           $userBank = $user->blood_bank->id;
           $inventory = BloodInventory::where("blood_bank_id", $userBank)->pluck('id');
           $order = Order::with('blood_inventory')

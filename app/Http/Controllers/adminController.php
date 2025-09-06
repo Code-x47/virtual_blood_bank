@@ -66,7 +66,7 @@ class adminController extends Controller
       $user->phone = $req->phone;
       $user->address = $req->address;
       $user->usertype = $req->usertype;
-      $user->role = $req->role;
+      $user->designation = $req->designation;
 
       $user->save();
       return redirect()->route('admin.dash');

@@ -24,31 +24,34 @@
             <li @click="myOrders">Orders</li>
             <li @click="myPayments">Payments</li>
             <li>Settings</li>
-            <li><a href="logout">Logout</a></li>
+            <li><a href="logout"  style="text-decoration:none; color:inherit;"
+                   onmouseover="this.style.textDecoration='none'"
+                   onmouseout="this.style.textDecoration='none'">
+                Logout</a>
+          </li>
         </ul>
 @endsection
 
 @section('cards')
-
-   <div class="cards">
-
+      
             <div class="card">Total Users: {{$countUsers}}</div>
             <div class="card">Orders: {{$countOrders}}</div>
             <div class="card">Revenue: N{{$revenue}}</div>
-    </div>
+       
 @endsection
 
 
 
 @section('user_table')
 <h3>Users Table</h3>
-        <table>
+        <table style="color:#ffffff;">
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
                   <th>Email Address</th>
                   <th>Home Address</th>
                   <th>Phone</th>
+                  <th>Designation</th>
                   <th>Action</th>
                 </tr>
 
@@ -59,9 +62,12 @@
                  <td>{{$user['email']}}</td>
                  <td>{{$user['address']}}</td>
                  <td>{{$user['phone']}}</td>
+                  <td>{{$user['designation']}}</td>
                  <td>
-                 <a href="{{route('admin.edit_user',$user->id)}}" style="color:blue; cursor:pointer">update</a> 
-                 <a href="{{route('admin.delete_user',$user->id)}}" style="color:red; cursor:pointer">delete</a>
+                      
+                 <a href="{{route('admin.edit_user',$user->id)}}" style="color:white; background:#28a745; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:600; text-decoration:none;">update</a>
+                
+                 <a href="{{route('admin.delete_user',$user->id)}}" style="color:#dc3545; cursor:pointer; font-weight:600; border:1px solid #dc3545; padding:3px 6px; border-radius:3px; text-decoration:none;">delete</a>
                  </td> 
                  <tr>
                 @endforeach
@@ -76,7 +82,7 @@
 
 @section('order_table')
 <h3>Recent Orders</h3>
-            <table>
+            <table style="color:#ffffff;">
                 <tr>
                   <th>Blood Type</th>
                   <th>Quantity</th>
@@ -95,8 +101,9 @@
                 <td>{{$orders['price']}}</td>
                 <td>{{$orders['status']}}</td>
                 <td>
-                <a href="{{route('admin.edit',$orders['id'])}}" style="color:blue; cursor:pointer">update</a> 
-                <a href="{{route('admin.delete_order',$orders['id'])}}" style="color:red; cursor:pointer">delete</a>
+
+                 <a href="{{route('admin.edit',$orders->id)}}" style="color:white; background:#28a745; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:600; text-decoration:none;">update</a>
+                 <a href="{{route('admin.delete_order',$orders->id)}}" style="color:#dc3545; cursor:pointer; font-weight:600; border:1px solid #dc3545; padding:3px 6px; border-radius:3px; text-decoration:none;">delete</a>
                </td>
                 </tr>
                @endforeach
@@ -113,7 +120,7 @@
 
 @section('payment_table')
 <h3>Payment Table</h3>
-        <table>
+        <table style="color:#ffffff;">
                 <tr>
                   <th>ID</th>
                   <th>Order_Id</th>
@@ -133,8 +140,12 @@
                  <td>{{$pay['payment_status']}}</td>
                  <td>{{$pay['user_id']}}</td>
                  <td>
-                 <a href="{{route('admin.edit_payment',$pay->id)}}" style="color:blue; cursor:pointer">update</a> 
-                 <a href="{{route('admin.delete_payment',$pay->id)}}" style="color:red; cursor:pointer">delete</a>
+
+                  <a href="{{route('admin.edit_payment',$pay->id)}}" style="color:white; background:#28a745; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:600; text-decoration:none;">update</a>
+                
+                  <a href="{{route('admin.delete_payment',$pay->id)}}" style="color:#dc3545; cursor:pointer; font-weight:600; border:1px solid #dc3545; padding:3px 6px; border-radius:3px; text-decoration:none;">delete</a>
+
+                
                  </td> 
                  <tr>
                 @endforeach
@@ -146,7 +157,7 @@
 
 @section('inventory_table')
 <h3>Blood Inventory Table</h3>
-        <table>
+        <table style="color:#ffffff;">
                 <tr>
                   <th>ID</th>
                   <th>Blood Bank</th>
@@ -164,8 +175,10 @@
                  <td>{{$data['quantity']}}</td>
                  <td>{{$data['expiry_date']}}</td>
                  <td>
-                  <a href="#" style="color:blue; cursor:pointer">update</a> 
-                  <a href="#" style="color:red; cursor:pointer">delete</a>
+             
+                  <a href="#" style="color:white; background:#28a745; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:600; text-decoration:none;">update</a>
+                
+                 <a href="#" style="color:#dc3545; cursor:pointer; font-weight:600; border:1px solid #dc3545; padding:3px 6px; border-radius:3px; text-decoration:none;">delete</a>
                  </td> 
                  <tr>
                 @endforeach
@@ -177,7 +190,7 @@
 
 @section('blood_bank_table')
 <h3>Blood Bank Table</h3>
-        <table>
+        <table style="color:#ffffff;">
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
@@ -197,8 +210,9 @@
                  <td>{{$bankdata->user->name}}</td>
                  <td>{{$bankdata->address}}</td>
                  <td>
-                  <a href="#" style="color:blue; cursor:pointer">update</a> 
-                  <a href="#" style="color:red; cursor:pointer">delete</a>
+                  <a href="#" style="color:white; background:#28a745; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:600; text-decoration:none;">update</a>
+                
+                  <a href="#" style="color:#dc3545; cursor:pointer; font-weight:600; border:1px solid #dc3545; padding:3px 6px; border-radius:3px; text-decoration:none;">delete</a>
                  </td> 
                  <tr>
                 @endforeach

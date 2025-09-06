@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="{{'asset/css/agentDashboard.css'}}">
   <title>RedDropz Dashboard</title>
- 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 
@@ -17,6 +18,16 @@
       <div class="logo-icon">RD</div>
       RedDropz
     </div>
+
+    @if (session('error'))
+       <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Oops! </strong> {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+
+
     <div class="user-actions">
     <span >Welcome, {{session('data')}}</span>
       <form action="/logout" method="GET" style="display: flex; align-items: center;">

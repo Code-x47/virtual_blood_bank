@@ -23,7 +23,7 @@
        
        
         <div class="mb-4 text-center">
-    <a href="{{ route('user.dashboard') }}" class="btn btn-success position-relative" style="font-size: 1.2rem; padding: 10px 25px; border-radius: 30px;">
+    <a href="{{ route('user.dashboard') }}" class="btn btn-success position-relative" style="font-size: 1.2rem; padding: 10px 25px; border-radius: 30px; background-color:#EA384C;">
         <i class="fas fa-tachometer-alt me-2"></i> Back To Dashboard
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             <i class="fas fa-shopping-basket"></i> {{ count($items) }}

@@ -73,10 +73,10 @@
             </select>
 
 
-            <label for="role">Role:</label>
-            <select id="role" name="role" value="{{$editUser['role']}}">
-                <option value="individual">Individual</option>
-                <option value="hospital">Hospital</option>
+            <label for="designation">Role:</label>
+            <select id="designation" name="designation" value="{{$editUser['designation']}}">
+                <option value="client">Client</option>
+                <option value="agent">Blood Bank</option>
                 <option value="admin">Admin</option>
             </select>
             

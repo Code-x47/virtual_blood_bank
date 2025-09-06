@@ -24,9 +24,9 @@
         <tr>
             <th>S/N</th>
             <th>Blood Type</th>
-            <th>Quantity</th>
+            <th>Available Stock</th>
             <th>Price (per unit)</th>
-            <th>Action</th>    
+            <th>Quantity</th>    
         </tr>
 
         @foreach($product as $products)
@@ -34,7 +34,7 @@
             <td>{{$products->id}}</td>
             <td>{{$products->blood_type}}</td>
             <td>{{$products->quantity}}</td>
-            <td>${{$products->price}}</td>
+            <td>₦{{$products->price}}</td>
             <td>
                 <form action="{{route('customer.add2cart',$products->id)}}" method="GET">
                     <input type="number" value="1" min="1" name="quantity">
@@ -45,6 +45,9 @@
         @endforeach
         
     </table>
-    <a href="{{route('user.dashboard')}}">Back</a>
+   
+    <p style="text-align:center; margin-top:20px;">
+        <a href="{{route('user.dashboard')}}">⬅ Back to Home</a>
+    </p>
 </body>
 </html>

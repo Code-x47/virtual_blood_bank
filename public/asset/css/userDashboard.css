@@ -26,9 +26,10 @@
             line-height: 1.6;
             color: var(--gray-800);
             background: linear-gradient(180deg, var(--blood) 0%, var(--blood-dark) 100%);
-            min-height: 100vh;
+           
             overflow-x: hidden;
             position: relative;
+              min-height: 100vh; 
         }
 
         .wave-bottom {
@@ -219,6 +220,7 @@
 
         /* Responsive styles */
         @media (max-width: 480px) {
+
             .dashboard-container {
                 width: 95%;
                 padding: 1rem 0.5rem;
@@ -239,6 +241,7 @@
         }
 
         @media (max-width: 380px) {
+
             .dashboard-container {
                 width: 98%;
                 padding: 0.75rem 0.25rem;
@@ -276,9 +279,11 @@
             .dashboard-container {
                 margin: 3rem auto;
             }
+    
         }
 
         @media (min-height: 800px) {
+            
             .dashboard-container {
                 margin: 4rem auto;
             }
@@ -286,6 +291,7 @@
 
         /* Handle tall screens */
         @media (min-height: 1000px) {
+           
             .dashboard-container {
                 margin: 6rem auto;
             }

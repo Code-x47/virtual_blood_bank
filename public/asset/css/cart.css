@@ -11,7 +11,7 @@ body {
 
         h1 {
             text-align: center;
-            color: #4CAF50;
+            color: #EA384C;
             font-size: 2.5rem;
             margin-bottom: 20px;
             font-weight: bold;
@@ -34,7 +34,7 @@ body {
         }
 
         th {
-            background-color: #4CAF50;
+            background-color: #EA384C;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -63,7 +63,7 @@ body {
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #EA384C;
             color: white;
             font-size: 1.2rem;
             padding: 12px 25px;
@@ -100,7 +100,7 @@ body {
 
         .cart-icon {
             font-size: 2rem;
-            color: #4CAF50;
+            color: #EA384C;
             margin-right: 8px;
         }
 
@@ -119,6 +119,6 @@ body {
 
         .form-container .form-header .icon {
             font-size: 2rem;
-            color: #4CAF50;
+            color: #EA384C;
             margin-right: 10px;
         }

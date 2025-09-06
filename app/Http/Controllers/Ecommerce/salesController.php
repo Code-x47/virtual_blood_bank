@@ -215,6 +215,7 @@ class salesController extends Controller
         $pay->payment_method = "cash_on_delivery";
         $pay->gross_total = $total;
         $pay->user_id = auth()->id();
+        $pay->payment_status = "pending";
         $pay->transaction_id = $orders->transaction_id;
         $pay->email = auth()->user()->email;
        

@@ -43,7 +43,7 @@
     <div class="dashboard-container">
         <div class="logo">
             <div class="logo-circle">B+</div>
-            <div class="logo-text">LifeBlood</div>
+            <div class="logo-text">RedDropz 🩸</div>
         </div>
         
         <div class="card">
