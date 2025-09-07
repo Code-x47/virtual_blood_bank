@@ -21,11 +21,13 @@ RUN composer install --no-dev --optimize-autoloader
 # Set permissions for Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Cache Laravel config
-
+# Cache Laravel config (optional but recommended)
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
 
 # Expose Render's PORT
 EXPOSE 10000
 
-# Start Laravel (Render sets $PORT automatically)
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# Run migrations before starting Laravel
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
