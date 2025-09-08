@@ -77,6 +77,15 @@ Route::group(['middleware' => 'auth'],function() {
 
 
 
+
+/*
+Route::get('/seed-admin', function () {
+    Artisan::call('db:seed', ['--force' => true]);
+    return "Admin seeded!";
+});
+*/
+
+
 //ADMIN DASBOARD ROUTES SECTION
 
 Route::group(['middleware'=>['auth','adminRoute']], function() {
