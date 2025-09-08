@@ -1,9 +1,9 @@
 # Use PHP with FPM
 FROM php:8.3-fpm
 
-# Install system dependencies
+# Install system dependencies + PostgreSQL dev libs
 RUN apt-get update && apt-get install -y \
-    git curl unzip libpng-dev libonig-dev libxml2-dev zip \
+    git curl unzip libpng-dev libonig-dev libxml2-dev zip libpq-dev \
     && docker-php-ext-install pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd
 
 # Install Composer
@@ -21,14 +21,8 @@ RUN composer install --no-dev --optimize-autoloader
 # Set permissions for Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Cache Laravel config (optional but recommended)
-RUN php artisan config:clear && php artisan cache:clear
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
-
 # Expose Render's PORT
 EXPOSE 10000
 
-# Start Laravel (do not run migrations here!)
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# Run migrations before starting Laravel
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
