@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+       if (User::count() === 0) {
          User::create([
             'name' => 'Admin User',
             'email' => 'admin@gmail.com',
@@ -23,5 +24,9 @@ class UserSeeder extends Seeder
             'designation' => 'admin',
             'email_verified_at' => now(),
         ]);
+       }
     }
+
+
+   
 }
