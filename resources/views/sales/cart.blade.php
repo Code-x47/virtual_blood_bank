@@ -15,7 +15,7 @@
 
  @include('sweetalert::alert')
 
-    <div class="form-container">
+  <div class="form-container">
         <div class="form-header">
             <i class="fas fa-shopping-cart icon"></i>
             <h1>Cart Items</h1>
@@ -23,20 +23,20 @@
        
        
         <div class="mb-4 text-center">
-    <a href="{{ route('user.dashboard') }}" class="btn btn-success position-relative" style="font-size: 1.2rem; padding: 10px 25px; border-radius: 30px; background-color:#EA384C;">
-        <i class="fas fa-tachometer-alt me-2"></i> Back To Dashboard
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            <i class="fas fa-shopping-basket"></i> {{ count($items) }}
-        </span>
-    </a>
-</div>
+              <a href="{{ route('user.dashboard') }}" class="btn btn-success position-relative" style="font-size: 1.2rem; padding: 10px 25px; border-radius: 30px; background-color:#EA384C;">
+                 <i class="fas fa-tachometer-alt me-2"></i> Back To Dashboard
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                       <i class="fas fa-shopping-basket"></i> {{ count($items) }}
+                   </span>
+             </a>
+        </div>
 
 
-@php
-    $firstItem = $items->first();
-@endphp
+       @php
+           $firstItem = $items->first();
+      @endphp
 
-
+     <div class="table">
         <table>
             <thead>
                 <tr>
@@ -54,20 +54,25 @@
                     </tr>
                 @endforeach
                 @if ($firstItem)
-                    <form action="{{ route('order', $firstItem->id) }}" method="GET">
-                        @csrf
-                        <tr>
-                            <td><input type="date" name="order_date" required></td>
-                            <td><input type="text" name="delivery_address" placeholder="Delivery Address" required></td>
+                      <form class="form" action="{{ route('order', $firstItem->id) }}" method="GET">
+                          @csrf
+                        <tr class="input-row">
+                        <td class="input">
+                        <input type="date" name="order_date" class="input" required>
+                        <input type="text" name="delivery_address" placeholder="Delivery Address" class="input" required>
+                        </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center;">
                                 <div class="order-now-container">
                                     <button type="submit">
+                                        <span class="orderbtn">
                                         <i class="fas fa-check-circle"></i> Order Now
+                                        </span>
                                     </button>
                                 </div>
                             </td>
+                      
                         </tr>
                     </form>
                 @else
@@ -79,7 +84,8 @@
                 @endif
             </tbody>
         </table>
-    </div>
+    </div>    
+ </div>
 
 </body>
 </html>

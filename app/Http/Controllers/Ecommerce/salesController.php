@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Ecommerce;
 
-use PDF;
+use Exception;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Jobs\AdminJob;
 use App\Jobs\OrderJob;
 use App\Models\Payment;
+use Barryvdh\DomPDF\PDF;
 use App\Models\Blood_Bank;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -115,10 +116,10 @@ class salesController extends Controller
 
     public function redirectToCart()
     {
-    // ✅ Set the session flag to allow access
+    //  Set the session flag to allow access
     session(['allowed_to_view_cart' => true]);
 
-    // ➡️ Redirect to the actual cart route
+    //  Redirect to the actual cart route
      return redirect()->route('customer.my_cart');
      }
 
@@ -148,10 +149,10 @@ class salesController extends Controller
 
       
 
-       $cartData = $cart_id->id;
-       $cart_remove = Cart::find($cartData);
+       //$cartData = $cart_id->id;
+      // $cart_remove = Cart::find($cartData);
       
-       $cart_remove->delete();
+       $cart_id->delete();
       
       }
       Alert::success('Product Ordered Successfully', 'Your Order Has Been Placed');
@@ -165,9 +166,9 @@ class salesController extends Controller
     public function view_order() {
 
       $order = Order::where('user_id',auth()->id())
-                       ->where('status','pending')
+                      ->whereIn('status', ['pending','rejected'])
                        ->get();
-      return view('sales.order',compact('order'));
+      return view('sales.test',compact('order'));
     }
 
     public function cancel_order(Order $order) {
@@ -178,34 +179,40 @@ class salesController extends Controller
 
 
 
-   public function pay_on_delivery($total) {
+   public function pay_on_delivery($total, PDF $mypdf) {
     DB::beginTransaction();
      try{
        $order = Order::where('user_id',auth()->id())->get();
    
-       $user = auth()->user();
+      $user = auth()->user();
       $orderWithoutPayment = $order->filter(function ($myOrder) {
        return !Payment::Where('order_id',$myOrder->id)->exists();
        });  
    
       if($orderWithoutPayment->isEmpty()){
       return [
-        "Message"=>"Record Already Exsist",
+        "All orders have already been paid",
         ];
      }
       foreach($orderWithoutPayment as $orders){
       
-        $inventory = BloodInventory::where("id",$orders->blood_inventory_id)->first();
+        $inventory = BloodInventory::where("id",$orders->blood_inventory_id)
+        ->lockForUpdate()
+        ->first();
         
         
         if($inventory->quantity < $orders->quantity) {
-          return response()->json([
-            "message" => "Insufficient blood stock for order ID: " . $orders->id
-        ], 400);   
+          
+         $orders->update([
+             'status' => 'rejected'
+           ]);
+
+         throw new Exception("Insufficient blood stock for order ID: {$orders->id}");  
           
          }
 
         $inventory->quantity -= $orders->quantity;
+        
         $inventory->save();
 
 
@@ -230,7 +237,7 @@ class salesController extends Controller
          new OrderJob(auth()->user()->email),
          new AdminJob()
         ])->dispatch();
-         event(new UserPaymentEvent($user->email));
+         //event(new UserPaymentEvent($user->email));
         }
 
         DB::commit();
@@ -246,7 +253,7 @@ class salesController extends Controller
               ->get();
               
         $pdf = true;
-        $pdfDoc = PDF::loadView('sales.podPay',compact('total','order','pdf','payment'));
+        $pdfDoc = $mypdf->loadView('sales.podPay',compact('total','order','pdf','payment'));
         return $pdfDoc->download("order_detail.pdf");
 
        }  catch (\Exception $e) {
@@ -278,7 +285,7 @@ class salesController extends Controller
        return view("sales.payment_reciept",compact('payment','order','latestpayment'));
     }
 
-    public function print_invoice() {
+    public function print_invoice(PDF $mypdf) {
 
        $payment = Payment::where('user_id',auth()->id())
                            ->latest()
@@ -295,7 +302,7 @@ class salesController extends Controller
                    ->get();
 
       $pdf = true;
-      $pdfDoc = PDF::loadView("sales.payment_reciept",compact('payment','order','pdf'));
+      $pdfDoc = $mypdf->loadView("sales.payment_reciept",compact('payment','order','pdf'));
       return $pdfDoc->download("order_detail.pdf");
     }
 
@@ -341,7 +348,7 @@ class salesController extends Controller
           foreach($summary As $summ) {
 
           $bank_id = Blood_Bank::where('id',$summ['blood_bank_id'])->get();
-         foreach($bank_id AS $bank)
+          foreach($bank_id AS $bank)
           $bankCreds[] = [
           'email' => $bank->email,
           ];

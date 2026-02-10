@@ -1,4 +1,4 @@
-:root {
+your version doesnt look nice, :root {
             --blood: #ea384c;
             --blood-dark: #c02638;
             --blood-light: #ffdee2;
@@ -322,7 +322,7 @@
 
         @media (max-width: 480px) {
             body {
-                padding: 1rem;
+              padding: 1rem;
             }
             
             .container {
@@ -341,4 +341,4 @@
             .products-table td {
                 padding: 0.6rem 0.4rem;
             }
-        }
+        }       

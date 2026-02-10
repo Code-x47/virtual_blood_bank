@@ -17,10 +17,10 @@ class UserSeeder extends Seeder
        if (User::count() === 0) {
          User::create([
             'name' => 'Admin User',
-            'email' => 'admin@gmail.com',
+            'email' => 'johnchidozie329@gmail.com',
             'phone' => '08153777284',
             'address' => 'RedDropz HQ',
-            'password' => Hash::make('password'), // secure your password!
+            'password' => Hash::make('Chidozie101'), // secure your password!
             'designation' => 'admin',
             'email_verified_at' => now(),
         ]);

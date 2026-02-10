@@ -18,8 +18,8 @@
     
     <div class="container">
         <div class="header">
-            <div class="logo-circle">LB</div>
-            <h2>LifeBlood Products</h2>
+            <div class="logo-circle">RD</div>
+            <h2>Red Dropz 🩸</h2>
         </div>
         
         <div class="page-title">

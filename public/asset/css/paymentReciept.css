@@ -1,4 +1,4 @@
-/* Global Reset */
+/* ================= GLOBAL RESET ================= */
 * {
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,6 +13,7 @@ body {
     color: #333;
     line-height: 1.5;
     font-size: 16px;
+    overflow-x: hidden; /* prevent full-page horizontal scroll */
 }
 
 .container {
@@ -34,33 +35,35 @@ h1 {
     font-weight: 600;
 }
 
-/* TABLE STYLES */
+/* ================= TABLE ================= */
 
-/* Wrapper makes table horizontally scrollable */
+/* Wrapper keeps table scrollable */
 .table-wrapper {
-    width: 100%;
-    overflow-x: auto;                  /* horizontal scroll */
-    -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Table structure */
+/* Table base */
 table {
     width: 100%;
-    min-width: 600px;  /* ensures scroll for small screens */
     border-collapse: collapse;
     background: #fff;
-    table-layout: auto; /* flexible column widths */
+    table-layout: auto;
+    min-width: 600px; /* ensures scroll on small screens */
 }
 
+/* Header & cells */
 th, td {
     padding: 16px 12px;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
-    vertical-align: top;
-    word-wrap: break-word;
     font-size: 0.95rem;
+    vertical-align: top;
+    word-break: break-word;
 }
 
 /* Table header styles */
@@ -73,9 +76,10 @@ th {
     position: sticky;
     top: 0;
     z-index: 10;
+    white-space: nowrap;
 }
 
-/* Row styles */
+/* Rows */
 tr:nth-child(even) {
     background-color: #fafafa;
 }
@@ -85,7 +89,7 @@ tr:hover {
     transition: background-color 0.2s ease;
 }
 
-/* MOBILE CARDS (Optional for extra responsive design) */
+/* ================= MOBILE CARDS (optional fallback) ================= */
 .mobile-cards {
     display: none;
 }
@@ -139,7 +143,7 @@ tr:hover {
     margin-left: 15px;
 }
 
-/* Status badges */
+/* ================= STATUS BADGES ================= */
 .status-approved {
     background: #28a745;
     color: white;
@@ -158,14 +162,14 @@ tr:hover {
     font-weight: 500;
 }
 
-/* Price highlights */
+/* ================= PRICE HIGHLIGHTS ================= */
 .price-highlight {
     font-size: 1.2rem;
     font-weight: 700;
     color: #b30000;
 }
 
-/* Messages */
+/* ================= MESSAGES ================= */
 .message {
     font-size: 1.1rem;
     padding: 20px;
@@ -189,7 +193,7 @@ tr:hover {
     padding: 20px;
 }
 
-/* Buttons */
+/* ================= BUTTONS ================= */
 .button-container {
     display: flex;
     gap: 15px;
@@ -237,7 +241,7 @@ tr:hover {
     box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
 }
 
-/* RESPONSIVE TABLE ONLY */
+/* ================= RESPONSIVE BREAKPOINTS ================= */
 @media screen and (max-width: 992px) {
     table {
         min-width: 550px;
@@ -256,7 +260,7 @@ tr:hover {
         padding: 15px;
     }
     table {
-        min-width: 500px; /* allow horizontal scroll */
+        min-width: 500px;
     }
     .mobile-cards {
         display: block;
@@ -265,7 +269,7 @@ tr:hover {
 
 @media screen and (max-width: 480px) {
     table {
-        min-width: 400px; /* scrollable */
+        min-width: 400px;
     }
     th, td {
         padding: 10px 8px;
@@ -273,23 +277,18 @@ tr:hover {
     }
 }
 
-/* Scrollbar style for table wrapper */
+/* ================= SCROLLBAR STYLE ================= */
 .table-wrapper::-webkit-scrollbar {
     height: 8px;
 }
-
 .table-wrapper::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 8px;
 }
-
 .table-wrapper::-webkit-scrollbar-thumb {
     background: #b30000;
     border-radius: 8px;
 }
-
 .table-wrapper::-webkit-scrollbar-thumb:hover {
     background: #8d0000;
 }
-
-/* Print & accessibility & dark mode remain as in your original code */

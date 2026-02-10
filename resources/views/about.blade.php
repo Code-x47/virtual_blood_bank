@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - LifeBlood</title>
+  <title>About Us - RedDropz</title>
   <meta name="description" content="Learn about LifeBlood's mission, history and team dedicated to saving lives through blood donation." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
     <div class="container">
       <div class="logo">
         <div class="logo-circle">B+</div>
-        <span class="logo-text">LifeBlood</span>
+        <span class="logo-text">RedDropz</span>
       </div>
       <div class="nav-links" id="navLinks">
         <a href="/">Home</a>
@@ -39,7 +39,7 @@
   <section class="about-hero">
     <div class="container">
       <div class="section-header">
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">About LifeBlood</h1>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">About RedDropz</h1>
         <div class="section-line"></div>
         <p class="max-w-3xl mx-auto text-gray-600">
           We are dedicated to saving lives through blood donation, connecting donors with patients in need,
@@ -56,7 +56,7 @@
         <div>
           <h2 class="text-2xl md:text-3xl font-bold mb-6">Our Mission</h2>
           <p class="text-gray-600 mb-4">
-            Since our founding in 2010, LifeBlood has been committed to providing a reliable and safe blood supply to hospitals
+            RedDropz is committed to provide a reliable and safe blood supply to hospitals
             and medical facilities across the country. We believe that everyone deserves access to life-saving blood when they need it most.
           </p>
           <p class="text-gray-600 mb-4">
@@ -143,15 +143,15 @@
       <div class="timeline">
         <div class="timeline-item left">
           <div class="timeline-content">
-            <div class="timeline-year">2010</div>
-            <h3>LifeBlood Founded</h3>
-            <p>Started with a single donation center and a team of five dedicated professionals.</p>
+            <div class="timeline-year">2023</div>
+            <h3>RedDropz Founded</h3>
+            <p>Started with a team of five dedicated professionals.</p>
           </div>
         </div>
         
         <div class="timeline-item right">
           <div class="timeline-content">
-            <div class="timeline-year">2013</div>
+            <div class="timeline-year">2024</div>
             <h3>Mobile Donation Program</h3>
             <p>Launched our first mobile donation vehicles to reach underserved communities.</p>
           </div>
@@ -159,7 +159,7 @@
         
         <div class="timeline-item left">
           <div class="timeline-content">
-            <div class="timeline-year">2015</div>
+            <div class="timeline-year">2025</div>
             <h3>Regional Expansion</h3>
             <p>Opened 10 new centers across the country, dramatically increasing our coverage.</p>
           </div>
@@ -167,29 +167,13 @@
         
         <div class="timeline-item right">
           <div class="timeline-content">
-            <div class="timeline-year">2018</div>
+            <div class="timeline-year">2025</div>
             <h3>Research Division</h3>
             <p>Established our research division to improve blood storage and transfusion techniques.</p>
           </div>
         </div>
         
-        <div class="timeline-item left">
-          <div class="timeline-content">
-            <div class="timeline-year">2022</div>
-            <h3>National Recognition</h3>
-            <p>Received the National Health Service Excellence Award for our contribution to healthcare.</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item right">
-          <div class="timeline-content">
-            <div class="timeline-year">2025</div>
-            <h3>Today</h3>
-            <p>Operating 50+ centers nationwide with over 500 dedicated staff members and thousands of volunteer donors.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+        <!-- -->
   </section>
 
   <!-- Leadership Team Section -->
@@ -203,12 +187,12 @@
       <div class="team-grid">
         <div class="team-member">
           <div class="team-image">
-            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=387&q=80" alt="Dr. Sarah Johnson">
+            <img src="asset/img/profile.jpg" alt="John Chidozie">
           </div>
           <div class="team-info">
-            <h3 class="team-name">Dr. Sarah Johnson</h3>
+            <h3 class="team-name">John Chidozie</h3>
             <p class="team-role">Chief Executive Officer</p>
-            <p class="text-gray-600">Former hematologist with 15 years of experience in healthcare management and blood banking systems.</p>
+            <p class="text-gray-600">Senior Software Engineer with years of experience in software development and blood banking systems.</p>
           </div>
         </div>
 
@@ -225,10 +209,10 @@
 
         <div class="team-member">
           <div class="team-image">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=388&q=80" alt="Emily Rodriguez">
+            <img src="asset/img/lily.jpg" alt="Lilian Ezinne">
           </div>
           <div class="team-info">
-            <h3 class="team-name">Emily Rodriguez</h3>
+            <h3 class="team-name">Lilian Ezinne</h3>
             <p class="team-role">Community Outreach Director</p>
             <p class="text-gray-600">Leads our donor recruitment initiatives and educational programs in communities nationwide.</p>
           </div>
@@ -236,7 +220,7 @@
 
         <div class="team-member">
           <div class="team-image">
-            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=387&q=80" alt="James Wilson">
+            <img >
           </div>
           <div class="team-info">
             <h3 class="team-name">James Wilson</h3>

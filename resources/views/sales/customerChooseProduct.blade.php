@@ -24,7 +24,7 @@
         <tr>
             <th>S/N</th>
             <th>Blood Type</th>
-            <th>Available Stock</th>
+            <th>Product Available</th>
             <th>Price (per unit)</th>
             <th>Quantity</th>    
         </tr>

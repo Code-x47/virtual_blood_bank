@@ -9,7 +9,8 @@
 <body>
 <div class="container">
     <h1>Transaction Receipt</h1>
-
+   
+    <div class="table-wrapper">
     <table>
         <thead>
             <tr>
@@ -56,8 +57,9 @@
          
 </tbody>
 </table>
-    
-    <div class="message">
+</div>
+
+    <div class="message" style="margin-top: 30px;">
        
         Hello valued <strong>{{ session('data') }}</strong>, you are to pay 
        
