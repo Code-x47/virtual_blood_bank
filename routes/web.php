@@ -32,7 +32,7 @@ Route::middleware(['web', 'auth', 'designation'])
         Route::view("/agent_dashboard","sales.agentDashboard")->name('agent.dashboard');
         Route::view("bloodBankForm","bank.bloodBankForm")->name("form.bloodBank"); // View Form Where You Register Blood Bank;
         Route::Post("reg_bank","reg_bank")->name("bank.register"); //This Route Facilitates Registration Of Blood Banks;
-        Route::view("InventoryForm","bank.InventoryForm")->name('view.inventoryForm'); //View Inventory Form For Inventory Registration;
+        Route::view("InventoryForm","bank.inventoryForm")->name('view.inventoryForm'); //View Inventory Form For Inventory Registration;
         Route::Post('inventory','RegInventory')->name('reg.inventory');//This Route Facilitates Inventory Registration method at the controller;
         Route::Get('agent_view_order','view_orders')->name('bank.view_orders'); 
         Route::Get('agent_view_payment','view_payment')->name('bank.view_payment'); 
