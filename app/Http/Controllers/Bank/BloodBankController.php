@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Bank;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\Blood_Bank;
+use App\Models\BloodInventory;
 use App\Models\Order;
 use App\Models\Payment;
-use App\Models\Blood_Bank;
+//use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\BloodInventory;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BloodBankController extends Controller
 {
@@ -20,7 +21,7 @@ class BloodBankController extends Controller
           "phone"=>"Required",
           "city"=>"Required",
          ]);
-        $user = auth()->id();
+        $user = Auth::id();
         $exsitingBank = Blood_Bank::where('user_id',$user)->first();
 
         if($exsitingBank){
@@ -35,7 +36,7 @@ class BloodBankController extends Controller
          $bankreg->address = $req->address;
          $bankreg->phone = $req->phone;
          $bankreg->city = $req->city;
-         $bankreg->user_id = auth()->id();
+         $bankreg->user_id = Auth::id();
          
 
          $bankreg->save();
@@ -51,7 +52,7 @@ class BloodBankController extends Controller
          "price"=>"Required"
          ]);
           
-          $bloodbank = Blood_Bank::where("user_id",auth()->id())->first();
+          $bloodbank = Blood_Bank::where("user_id",Auth::id())->first();
           
           if(!$bloodbank) {
             return response([
@@ -73,7 +74,7 @@ class BloodBankController extends Controller
         }
         
         public function view_orders() {
-          $user = Auth()->user();
+          $user = Auth::user();
 
            
          if (!$user->blood_bank) {
@@ -89,7 +90,7 @@ class BloodBankController extends Controller
         }
         
         public function view_payment() {
-          $user = auth()->user();
+          $user = Auth::user();
 
           if (!$user->blood_bank) {
           return back()->with('error', 'You are not assigned to any blood bank.');
