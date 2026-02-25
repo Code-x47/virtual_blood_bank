@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\ActivityLoggingService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class userController extends Controller
 {
@@ -69,27 +72,30 @@ class userController extends Controller
            
     }*/
 
-        public function login(Request $req) {
+        public function login(Request $req,ActivityLoggingService $logLogin) {
             $loginData = $req->validate([
                 "email" => "required",
                 "password" => "required"
             ]);
 
-            if (auth()->attempt([
+            if (Auth::attempt([
                 "email" => $loginData['email'],
                 "password" => $loginData['password']
             ])) {
                 $req->session()->put('data', $loginData['email']);
 
-                $user = auth()->user();
+                $user = Auth::user();
 
                 if ($user->designation == "admin") {
                     return redirect('/admin_dashboard');
                 } elseif ($user->designation == "agent") {
                     return redirect('/agent_dashboard');
                 } else {
+                    
+                    $logLogin->LoginLog();
                     return redirect('/user_dashboard');
                 }
+                 
             }
 
             // Login failed
@@ -99,7 +105,7 @@ class userController extends Controller
 
 
     public function logout(Request $req) {
-       auth()->logout();
+       Auth::logout();
        return redirect('/login');
     }
 

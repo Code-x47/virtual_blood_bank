@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\testController;
 use App\Http\Controllers\adminController;
-use App\Http\Controllers\General\userController;
 use App\Http\Controllers\Bank\BloodBankController;
 use App\Http\Controllers\Ecommerce\salesController;
+use App\Http\Controllers\General\userController;
+use App\Http\Controllers\testController;
+use Illuminate\Support\Facades\Route;
 
 
 
@@ -40,7 +40,7 @@ Route::middleware(['web', 'auth', 'designation'])
 });
 });
 
-Route::group(['middleware' => 'auth'],function() { 
+Route::middleware(['auth','no-back-cache'])->group(function() { 
        
         Route::controller(salesController::class)->group(function(){
         Route::view("/user_dashboard","sales.userDashboard")->name('user.dashboard');
@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth'],function() {
         //Customers Controller Section
         Route::Get("/customer_view_product","customer_view")->name('view.products_by_customers'); //This Route Displays All The Blood Banks And Available Blood;
         Route::Get('/customerBuy/{id}','customer_buy')->name('customer.buy'); //This Route Is Responsible For Viewing Items Your Desire To Add To Cart
-        Route::Get('/addToCart/{id}','add2cart')->name('customer.add2cart'); //This Route Is Responsible For Adding Item To Cart
+        Route::POST('/addToCart/{id}','add2cart')->name('customer.add2cart'); //This Route Is Responsible For Adding Item To Cart
         Route::Get("cart_redirect","redirectToCart")->name('customer.cart.redirect');
         Route::Get('/removeCart/{id}','remove_cart')->name('customer.removeCart'); //This Route Removes Items From, Cart
         Route::Get('/myCart','myCart')->name('customer.my_cart'); //This Route Is Responsible For Dispalying A specific Users Cart Items

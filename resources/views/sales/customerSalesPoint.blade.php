@@ -23,7 +23,7 @@
         </div>
         
         <div class="page-title">
-            <h1>Available Blood Products</h1>
+            <h1>Available Blood Banks</h1>
         </div>
         
         @if (session('error'))
